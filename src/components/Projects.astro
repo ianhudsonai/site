@@ -1,0 +1,211 @@
+---
+import { consoleProjects } from '../data/console';
+import { tacoFoods, sumPlate } from '../data/taco';
+
+const plate = Object.fromEntries(tacoFoods.map((f) => [f.id, f.grams]));
+const items = tacoFoods.filter((f) => plate[f.id] > 0).map((f) => `  { food_id: ${f.id}, grams: ${f.grams} }`);
+const call = `calc_meal({ items: [\n${items.join(',\n')}\n] })\n// ${Math.round(sumPlate(plate).kcal)} kcal`;
+---
+
+<section id="projects" tabindex="-1" class="projects" aria-labelledby="projects-title">
+  <h2 id="projects-title" data-reveal>Two projects.<br />Pick one.</h2>
+  <p class="lede" data-reveal>Each one opens from the overview down to the proof. Move the depth, read the numbers.</p>
+
+  <div class="console">
+    <div class="list" role="radiogroup" aria-label="Project">
+      {
+        consoleProjects.map((p, i) => (
+          <div class={`pcard pcard-${i}`}>
+            <input class="pick sr-only" type="radio" name="project" id={`pick-${p.id}`} value={p.id} checked={i === 0} />
+            <span class="br br-a" aria-hidden="true"></span>
+            <span class="br br-b" aria-hidden="true"></span>
+            <h3 class="name"><label for={`pick-${p.id}`}>{p.name}</label></h3>
+            <p class="blurb">{p.blurb}</p>
+            <p class="meta">{p.status}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="panels">
+      {
+        consoleProjects.map((p, pi) => (
+          <aside class="panel" id={`panel-${p.id}`} aria-labelledby={`panel-title-${p.id}`}>
+            <header class="ph">
+              <h3 id={`panel-title-${p.id}`}>This build: {p.name}</h3>
+            </header>
+
+            <fieldset class="depth">
+              <legend>Depth</legend>
+              <span class="thumb" aria-hidden="true"></span>
+              {p.levels.map((l, li) => (
+                <label>
+                  <input class={`dp dp-${li} sr-only`} type="radio" name={`depth-${p.id}`} value={li} checked={li === 0} />
+                  <span>{l.label}</span>
+                </label>
+              ))}
+            </fieldset>
+
+            <div class="read" aria-live="polite" aria-atomic="true">
+              {p.levels.map((l, li) => (
+                <div class="lvl" data-d={li}>
+                  <p class="metric">{l.metric}</p>
+                  <p class="cap">{l.caption}</p>
+                  <dl class="figs">
+                    {l.figs.map((f) => (
+                      <div>
+                        <dt>{f.k}</dt>
+                        <dd>{f.v}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              ))}
+            </div>
+
+            <p class="barl" aria-hidden="true">{p.barLabel}</p>
+            <div class="bar" role="img" aria-label={`${p.barLabel}: ${p.bar.map((b) => b.label).join(', ')}`}>
+              {
+                p.bar.flatMap((b, bi) =>
+                  Array.from({ length: b.n }, (_, n) => (
+                    <span
+                      class={`seg t-${b.tone}`}
+                      style={`--i:${p.bar.slice(0, bi).reduce((a, x) => a + x.n, 0) + n}`}
+                    />
+                  )),
+                )
+              }
+            </div>
+            <ul class="legend" aria-hidden="true">
+              {p.bar.map((b) => <li><i class={`t-${b.tone}`}></i>{b.label}</li>)}
+            </ul>
+
+            {
+              p.id === 'kilo' ? (
+                <div class="shots">
+                  <img src="/kilo/alimentacao-dia.webp" width="780" height="1000" alt="Kilo's food log for one day, in Portuguese: 1,437 kcal left, protein, carbs and fat against targets, then breakfast and lunch" loading="lazy" />
+                  <img src="/kilo/treino-aceitar-sugestao.webp" width="780" height="1000" alt="Kilo's workout screen, in Portuguese: Treino A with bench press sets of 60 kg for 10 reps" loading="lazy" />
+                </div>
+              ) : (
+                <pre class="code"><code>{call}</code></pre>
+              )
+            }
+
+            <a class="go" href={p.href}>{p.cta} <span aria-hidden="true">→</span></a>
+          </aside>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .projects { background: var(--bg); padding: clamp(5rem, 11vw, 10rem) var(--m) clamp(4rem, 8vw, 7rem); }
+  h2 { font-family: var(--font-display); font-weight: 400; font-size: var(--t-d); line-height: 0.9; letter-spacing: -0.035em; text-transform: uppercase; }
+  .lede { margin: 1.25rem 0 clamp(2.5rem, 5vw, 4.5rem); max-width: 40ch; color: var(--muted); }
+
+  .console { display: grid; grid-template-columns: 7fr 5fr; gap: var(--m); align-items: start; }
+
+  /* The selector: cards stack like a wheel. The chosen one sits upright and lit, the others lean away and dim. */
+  .list { display: grid; gap: 1rem; perspective: 1100px; }
+  .pcard {
+    position: relative;
+    display: grid;
+    align-content: space-between;
+    gap: 1.25rem;
+    min-height: clamp(15rem, 26vw, 21rem);
+    padding: 1.75rem 2rem 1.5rem;
+    background: var(--surface);
+    color: var(--fg);
+    opacity: 0.62;
+    transition: opacity 0.4s, background-color 0.4s, color 0.4s;
+  }
+  .pcard-0 { --lean: 14deg; transform-origin: 50% 100%; }
+  .pcard-1 { --lean: -14deg; transform-origin: 50% 0; }
+  .pcard:hover { opacity: 0.75; }
+  .pcard:has(.pick:checked) { opacity: 1; background: var(--accent); color: var(--on-accent); }
+  .pcard:has(.pick:focus-visible) { outline: 3px solid var(--fg); outline-offset: 4px; }
+  .name label { cursor: pointer; }
+  .name label::after { content: ''; position: absolute; inset: 0; }
+  .name { font-family: var(--font-display); font-size: clamp(2.5rem, 6.4vw, 6.5rem); line-height: 0.88; letter-spacing: -0.04em; text-transform: uppercase; overflow-wrap: anywhere; }
+  .blurb { max-width: 34ch; font-size: var(--t-b); line-height: 1.35; font-weight: 500; }
+  .meta { font-size: var(--t-b); font-weight: 700; }
+
+  /* Corner brackets: two L-shaped borders on opposite corners. */
+  .br { position: absolute; width: 1.5rem; height: 1.5rem; border: 0 solid currentColor; opacity: 0.9; }
+  .br-a { top: 0.7rem; left: 0.7rem; border-width: 3px 0 0 3px; }
+  .br-b { right: 0.7rem; bottom: 0.7rem; border-width: 0 3px 3px 0; }
+
+  /* The console panel borrows the plate: paper ground, ink type, one hard accent shadow. */
+  .panels { position: sticky; top: 4.5rem; }
+  .panel {
+    display: none;
+    padding: 1.25rem 1.5rem 1rem;
+    background: var(--fg);
+    color: var(--bg);
+  }
+  @media (min-width: 901px) {
+    .panel { box-shadow: 8px 8px 0 var(--accent); /* taste-skill-ignore: the Terminal zine brief keeps one hard accent shadow on the main card */ }
+  }
+  .console:has(#pick-kilo:checked) #panel-kilo,
+  .console:has(#pick-taco:checked) #panel-taco { display: block; }
+
+    .ph h3 { font-family: var(--font-display); font-weight: 400; font-size: var(--t-l); line-height: 1; letter-spacing: -0.02em; text-transform: uppercase; overflow-wrap: anywhere; }
+
+  /* Depth: a three-stop track with a thumb that slides to the chosen stop. Plain radios underneath, so it works with a keyboard and without script. */
+  .depth { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); margin: 0.8rem 0 0.9rem; padding: 0; border: 2px solid var(--bg); --i: 0; }
+  .depth legend { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .thumb { position: absolute; inset: 0 auto 0 0; width: calc(100% / 3); background: var(--accent); border-right: 2px solid var(--bg); translate: calc(var(--i) * 100%) 0; transition: translate 0.5s var(--ease-zine); }
+  .depth label { position: relative; z-index: 1; display: grid; place-items: center; min-height: 2.75rem; font-weight: 700; font-size: var(--t-s); cursor: pointer; }
+  .depth label:has(.dp:focus-visible) { outline: 3px solid var(--bg); outline-offset: -5px; }
+  .panel:has(.dp-1:checked) .depth { --i: 1; }
+  .panel:has(.dp-2:checked) .depth { --i: 2; }
+
+  .lvl { display: none; }
+  .panel:has(.dp-0:checked) .lvl[data-d='0'],
+  .panel:has(.dp-1:checked) .lvl[data-d='1'],
+  .panel:has(.dp-2:checked) .lvl[data-d='2'] { display: block; }
+  .metric { font-family: var(--font-display); font-size: clamp(2.5rem, 4.4vw, 4.25rem); line-height: 0.88; letter-spacing: -0.045em; font-variant-numeric: tabular-nums; text-transform: uppercase; overflow-wrap: anywhere; }
+  .cap { margin: 0.45rem 0 0; font-size: var(--t-b); font-weight: 500; line-height: 1.3; min-height: 2.6em; }
+  .figs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin: 0.8rem 0 0.9rem; }
+  .figs dt { font-size: var(--t-s); font-weight: 600; }
+  .figs dd { font-weight: 800; font-size: var(--t-b); line-height: 1.15; font-variant-numeric: tabular-nums; }
+
+  .barl { margin-bottom: 0.4rem; font-size: var(--t-s); font-weight: 600; }
+  .bar { display: flex; gap: 2px; height: 1.5rem; padding: 2px; background: var(--fg); border: 2px solid var(--bg); }
+  .seg { flex: 1; min-width: 0; background: #d9d4c8; }
+  .seg.t-ink { background: var(--bg); }
+  .seg.t-accent { background: var(--accent); }
+  .legend { display: flex; flex-wrap: wrap; gap: 0.3rem 1.25rem; margin: 0.7rem 0 0.9rem; font-size: var(--t-s); font-weight: 600; }
+  .legend li { display: flex; align-items: center; gap: 0.5rem; }
+  .legend i { width: 0.8rem; height: 0.8rem; border: 2px solid var(--bg); flex: none; background: #d9d4c8; }
+  .legend i.t-ink { background: var(--bg); }
+  .legend i.t-accent { background: var(--accent); }
+
+  .code { background: var(--bg); color: var(--fg); padding: 0.9rem 1rem; font: 500 var(--t-s)/1.5 var(--font-mono); overflow: auto; max-height: 9.5rem; }
+  .shots { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .shots img { width: 100%; height: 9rem; object-fit: cover; object-position: top; border: 2px solid var(--bg); }
+
+  .go { display: inline-flex; min-height: 2.75rem; align-items: center; gap: 0.4rem; margin-top: 0.4rem; font-weight: 700; font-size: var(--t-b); text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 3px; text-underline-offset: 0.3em; overflow-wrap: anywhere; }
+  .go:hover { text-decoration-color: var(--bg); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .pcard { transition: opacity 1.2s var(--ease-zine), background-color 0.6s, color 0.6s, transform 1.2s var(--ease-zine); }
+    .pcard:not(:has(.pick:checked)) { transform: rotateX(var(--lean)) scale(0.95); }
+    .panel .seg { animation: fill 0.6s var(--ease-zine) backwards; animation-delay: calc(var(--i) * 14ms); }
+    @keyframes fill { from { scale: 1 0; } }
+  }
+
+  @media (max-width: 900px) {
+    .console { grid-template-columns: 1fr; }
+    .pcard { min-height: 9.5rem; padding: 1.25rem 1.25rem 1rem; gap: 0.75rem; }
+    .blurb { font-size: 1rem; }
+    .figs dd { font-size: 1rem; }
+    .metric { font-size: 2.5rem; }
+    .name { font-size: clamp(2.25rem, 12vw, 3.5rem); }
+    /* On a phone the panel docks to the foot of the screen as a sheet while the cards scroll above it. */
+    .panels { position: sticky; top: auto; bottom: 0; z-index: 5; margin: 0 calc(-1 * var(--m)); }
+    .panel { max-height: 44svh; overflow-y: auto; padding-top: 1rem; border-top: 6px solid var(--accent); }
+    .shots img { height: 8rem; }
+  }
+</style>
