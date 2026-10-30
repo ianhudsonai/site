@@ -1,6 +1,8 @@
 ---
 import '../styles/global.css';
-import { site } from '../data/site';
+import { site, links, projects } from '../data/site';
+import archivoUrl from '@fontsource/archivo-black/files/archivo-black-latin-400-normal.woff2?url';
+import interUrl from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 
 interface Props {
   title?: string;
@@ -10,6 +12,17 @@ interface Props {
 const { title = `${site.name}: ${site.role}`, description = site.description } = Astro.props;
 const canonical = new URL(Astro.url.pathname, site.url).href;
 const ogImage = new URL('/og.png', site.url).href;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.name,
+  jobTitle: site.role,
+  description: site.description,
+  url: site.url,
+  email: `mailto:${links.email}`,
+  sameAs: [links.github, links.linkedin, links.x],
+  owns: projects.map((p) => ({ '@type': 'SoftwareApplication', name: p.name, description: p.summary, url: p.href })),
+};
 ---
 
 <!doctype html>
@@ -19,8 +32,10 @@ const ogImage = new URL('/og.png', site.url).href;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#0c0d10" />
+    <meta name="theme-color" content="#0b0b0c" />
     <link rel="canonical" href={canonical} />
+    <link rel="preload" href={archivoUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={interUrl} as="font" type="font/woff2" crossorigin />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="alternate" type="application/json" href="/resume.json" title="Resume (JSON)" />
@@ -37,8 +52,22 @@ const ogImage = new URL('/og.png', site.url).href;
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <script is:inline>
+      // Opt into the motion layer only when the visitor allows motion. A timeout releases the page if the script never loads.
+      if (matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+        document.documentElement.classList.add('motion');
+        setTimeout(function () {
+          if (!window.__zineReady) document.documentElement.classList.remove('motion');
+        }, 4000);
+      }
+    </script>
   </head>
-  <body class="min-h-screen antialiased">
+  <body class="min-h-dvh antialiased">
+    <div id="boot" aria-hidden="true"></div>
     <slot />
+    <script>
+      import '../scripts/motion';
+    </script>
   </body>
 </html>

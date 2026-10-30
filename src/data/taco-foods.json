@@ -1,0 +1,134 @@
+[
+  {
+    "id": 3,
+    "label": "Arroz",
+    "en": "white rice, cooked",
+    "tacoName": "Arroz, tipo 1, cozido",
+    "grams": 150,
+    "kcal": 128,
+    "protein": 2.5,
+    "carbs": 28.1,
+    "fat": 0.2
+  },
+  {
+    "id": 561,
+    "label": "Feijão",
+    "en": "carioca beans, cooked",
+    "tacoName": "Feijão, carioca, cozido",
+    "grams": 100,
+    "kcal": 76,
+    "protein": 4.8,
+    "carbs": 13.6,
+    "fat": 0.5
+  },
+  {
+    "id": 410,
+    "label": "Frango",
+    "en": "chicken breast, grilled",
+    "tacoName": "Frango, peito, sem pele, grelhado",
+    "grams": 120,
+    "kcal": 159,
+    "protein": 32,
+    "carbs": 0,
+    "fat": 2.5
+  },
+  {
+    "id": 488,
+    "label": "Ovo",
+    "en": "egg, boiled",
+    "tacoName": "Ovo, de galinha, inteiro, cozido/10minutos",
+    "grams": 0,
+    "kcal": 146,
+    "protein": 13.3,
+    "carbs": 0.6,
+    "fat": 9.5
+  },
+  {
+    "id": 53,
+    "label": "Pão francês",
+    "en": "French roll",
+    "tacoName": "Pão, trigo, francês",
+    "grams": 0,
+    "kcal": 300,
+    "protein": 8,
+    "carbs": 58.6,
+    "fat": 3.1
+  },
+  {
+    "id": 182,
+    "label": "Banana prata",
+    "en": "silver banana, raw",
+    "tacoName": "Banana, prata, crua",
+    "grams": 0,
+    "kcal": 98,
+    "protein": 1.3,
+    "carbs": 26,
+    "fat": 0.1
+  },
+  {
+    "id": 129,
+    "label": "Mandioca",
+    "en": "cassava, boiled",
+    "tacoName": "Mandioca, cozida",
+    "grams": 0,
+    "kcal": 125,
+    "protein": 0.6,
+    "carbs": 30.1,
+    "fat": 0.3
+  },
+  {
+    "id": 88,
+    "label": "Batata-doce",
+    "en": "sweet potato, boiled",
+    "tacoName": "Batata, doce, cozida",
+    "grams": 0,
+    "kcal": 77,
+    "protein": 0.6,
+    "carbs": 18.4,
+    "fat": 0.1
+  },
+  {
+    "id": 533,
+    "label": "Cuscuz",
+    "en": "corn couscous, cooked",
+    "tacoName": "Cuscuz, de milho, cozido com sal",
+    "grams": 0,
+    "kcal": 113,
+    "protein": 2.2,
+    "carbs": 25.3,
+    "fat": 0.7
+  },
+  {
+    "id": 131,
+    "label": "Farofa",
+    "en": "seasoned cassava flour",
+    "tacoName": "Mandioca, farofa, temperada",
+    "grams": 0,
+    "kcal": 406,
+    "protein": 2.1,
+    "carbs": 80.3,
+    "fat": 9.1
+  },
+  {
+    "id": 461,
+    "label": "Queijo minas",
+    "en": "minas fresh cheese",
+    "tacoName": "Queijo, minas, frescal",
+    "grams": 0,
+    "kcal": 264,
+    "protein": 17.4,
+    "carbs": 3.2,
+    "fat": 20.2
+  },
+  {
+    "id": 163,
+    "label": "Abacate",
+    "en": "avocado, raw",
+    "tacoName": "Abacate, cru",
+    "grams": 0,
+    "kcal": 96,
+    "protein": 1.2,
+    "carbs": 6,
+    "fat": 8.4
+  }
+]

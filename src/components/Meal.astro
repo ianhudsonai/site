@@ -1,0 +1,166 @@
+---
+import { tacoFoods, tacoSource, presets, sumPlate } from '../data/taco';
+
+const start: Record<number, number> = Object.fromEntries(tacoFoods.map((f) => [f.id, f.grams]));
+const total = sumPlate(start);
+const items = tacoFoods.filter((f) => start[f.id] > 0).map((f) => ({ food_id: f.id, grams: start[f.id] }));
+const request = JSON.stringify({ items }, null, 2);
+const swatch = ['var(--accent)', 'var(--fg)', '#7d7a73'];
+const parts = tacoFoods
+  .filter((f) => start[f.id] > 0)
+  .map((f, i) => ({ f, kcal: (f.kcal * start[f.id]) / 100, color: swatch[i % 3] }));
+const sum = parts.reduce((a, p) => a + p.kcal, 0) || 1;
+---
+
+<section id="meal" tabindex="-1" class="meal" aria-labelledby="meal-title">
+  <div class="intro">
+    <h2 id="meal-title" data-reveal>Weigh a plate<br />of Brazil.</h2>
+    <p data-reveal>
+      Kilo carries the TACO, Brazil's food composition table, inside the app. taco-br-mcp hands the same table to AI
+      assistants. Slide the grams: every number here is read straight from it.
+    </p>
+  </div>
+
+  <div class="tool" data-meal data-foods={JSON.stringify(tacoFoods)} data-presets={JSON.stringify(presets)}>
+    <div class="foods">
+      <div class="presets" role="group" aria-label="Start from a preset">
+        {presets.map((p) => <button type="button" class="preset" data-preset={p.key}>{p.label}</button>)}
+      </div>
+      <ul class="list">
+        {
+          tacoFoods.map((f) => (
+            <li class="row" data-food={f.id}>
+              <div class="row-head">
+                <label for={`g-${f.id}`}>
+                  <span class="label">{f.label}</span>
+                  <span class="en">{f.en}</span>
+                </label>
+                <span class="per">{f.kcal} kcal / 100 g</span>
+              </div>
+              <div class="row-ctl">
+                <input id={`g-${f.id}`} type="range" min="0" max="400" step="10" value={start[f.id]} />
+                <output for={`g-${f.id}`}>{start[f.id]} g</output>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <aside class="plate" aria-labelledby="plate-title">
+      <h3 id="plate-title">This plate</h3>
+      <p class="total" aria-live="polite" aria-atomic="true">
+        <span class="n" data-total>{Math.round(total.kcal)}</span>
+        <span class="u">kcal</span>
+      </p>
+      <dl class="macros">
+        <div><dt>Protein</dt><dd><span data-protein>{total.protein.toFixed(1)}</span> g</dd></div>
+        <div><dt>Carbs</dt><dd><span data-carbs>{total.carbs.toFixed(1)}</span> g</dd></div>
+        <div><dt>Fat</dt><dd><span data-fat>{total.fat.toFixed(1)}</span> g</dd></div>
+      </dl>
+
+      <div class="bar" data-bar role="img" aria-label="Share of the plate's energy by food">
+        {parts.map((p) => <span style={`flex:${p.kcal / sum};background:${p.color}`} />)}
+      </div>
+      <ul class="legend" data-legend>
+        {
+          parts.map((p) => (
+            <li>
+              <i style={`background:${p.color}`} />
+              {p.f.label} {start[p.f.id]} g
+              <b>{Math.round(p.kcal)}</b>
+            </li>
+          ))
+        }
+      </ul>
+
+      <details class="req" open>
+        <summary>The same plate as a taco-br-mcp call</summary>
+        <pre><code data-req>calc_meal({request})</code></pre>
+      </details>
+    </aside>
+
+    <p class="fine">
+      Values per 100 g of edible portion from the {tacoSource}, as published in taco-br-mcp's data. The page does the
+      per-100 g arithmetic in your browser; the call above is the request shape from the README. Real plates vary. This
+      is not medical or nutritional advice.
+    </p>
+  </div>
+</section>
+
+<script>
+  import '../scripts/meal';
+</script>
+
+<style>
+  .meal { background: var(--bg); padding: clamp(5rem, 11vw, 10rem) var(--m) clamp(4rem, 8vw, 7rem); }
+  .intro { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 2rem var(--m); margin-bottom: clamp(2.5rem, 5vw, 4.5rem); }
+  .intro h2 { font-family: var(--font-display); font-weight: 400; font-size: var(--t-d); line-height: 0.9; grid-column: 1 / -1; letter-spacing: -0.035em; text-transform: uppercase; }
+  .intro p { grid-column: 7 / -1; max-width: 40ch; color: var(--muted); }
+
+  .tool { display: grid; grid-template-columns: 7fr 5fr; gap: var(--m); align-items: start; }
+  .presets { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.5rem; }
+  .preset {
+    min-height: 2.75rem;
+    padding: 0 1.1rem;
+    border: 2px solid var(--fg);
+    background: transparent;
+    color: var(--fg);
+    font: 700 var(--t-b) var(--font-sans);
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, translate 0.2s var(--ease-zine);
+  }
+  .preset:hover { background: var(--fg); color: var(--bg); }
+  .preset:active { translate: 0 2px; }
+
+  .list { display: grid; }
+  .row { padding: 0.8rem 0 1.1rem; }
+  .row-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+  .row-head label { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.15rem 0.75rem; }
+  .label { font-family: var(--font-display); font-size: var(--t-l); letter-spacing: -0.02em; text-transform: uppercase; }
+  .en { color: var(--muted); font-size: var(--t-s); }
+  .per { font-size: var(--t-s); font-weight: 500; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .row-ctl { display: grid; grid-template-columns: 1fr 4.5rem; gap: 1rem; align-items: center; }
+  output { font-weight: 800; font-size: var(--t-b); text-align: right; font-variant-numeric: tabular-nums; }
+
+  input[type='range'] { width: 100%; height: 2.75rem; background: transparent; cursor: pointer; -webkit-appearance: none; appearance: none; }
+  input[type='range']::-webkit-slider-runnable-track { height: 0.5rem; background: var(--line); }
+  input[type='range']::-moz-range-track { height: 0.5rem; background: var(--line); }
+  input[type='range']::-webkit-slider-thumb { -webkit-appearance: none; width: 1.75rem; height: 1.75rem; margin-top: -0.625rem; background: var(--accent); border: 2px solid var(--fg); transition: scale 0.2s var(--ease-zine); }
+  input[type='range']::-moz-range-thumb { width: 1.25rem; height: 1.25rem; background: var(--accent); border: 2px solid var(--fg); border-radius: 0; }
+  input[type='range']:active::-webkit-slider-thumb { scale: 1.2; }
+  input[type='range']:focus-visible { outline-offset: 0; }
+
+  .plate {
+    position: sticky;
+    top: 4.5rem;
+    padding: 1.5rem 1.5rem 1.25rem;
+    background: var(--fg);
+    color: var(--bg);
+    box-shadow: 8px 8px 0 var(--accent); /* taste-skill-ignore: the Terminal zine brief keeps one hard orange shadow on the main card */
+  }
+  .plate h3 { font-weight: 700; font-size: var(--t-b); }
+  .total { display: flex; align-items: baseline; gap: 0.75rem; margin: 0.25rem 0 0.75rem; line-height: 0.85; }
+  .n { font-family: var(--font-display); font-size: var(--t-d); letter-spacing: -0.05em; font-variant-numeric: tabular-nums; }
+  .u { font-weight: 700; font-size: var(--t-b); }
+  .macros { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; padding-bottom: 1.25rem; }
+  .macros dt { font-size: var(--t-s); font-weight: 600; }
+  .macros dd { font-weight: 800; font-size: var(--t-l); font-variant-numeric: tabular-nums; }
+  .bar { display: flex; height: 1.5rem; background: #d9d4c8; border: 2px solid var(--bg); }
+  .bar span { min-width: 0; transition: flex-grow 0.5s var(--ease-zine); }
+  .legend { display: grid; gap: 0.3rem; margin: 0.9rem 0 1.1rem; font-size: var(--t-s); font-weight: 600; min-height: 3.2rem; }
+  .legend li { display: flex; align-items: center; gap: 0.5rem; }
+  .legend i { width: 0.8rem; height: 0.8rem; border: 2px solid var(--bg); flex: none; }
+  .legend b { margin-left: auto; font-variant-numeric: tabular-nums; }
+  .req { border-top: 3px solid var(--bg); padding-top: 0.75rem; }
+  .req summary { cursor: pointer; font-weight: 700; font-size: var(--t-s); min-height: 2.75rem; display: flex; align-items: center; }
+  .req pre { background: var(--bg); color: var(--fg); padding: 0.9rem 1rem; font: 500 var(--t-s)/1.5 var(--font-mono); overflow-x: auto; max-height: 15rem; }
+  .fine { grid-column: 1 / -1; max-width: 70ch; color: var(--muted); font-size: var(--t-s); }
+
+  @media (max-width: 900px) {
+    .tool { grid-template-columns: 1fr; }
+    .intro p { grid-column: 1 / -1; }
+    .plate { position: static; order: -1; }
+    .foods { order: 2; }
+  }
+</style>

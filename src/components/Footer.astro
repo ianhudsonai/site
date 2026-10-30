@@ -1,0 +1,78 @@
+---
+import { site, links } from '../data/site';
+const year = new Date().getFullYear();
+const nav = [
+  ['Work', '#work'],
+  ['Weigh a meal', '#meal'],
+  ['Tools', '#tools'],
+  ['About', '#about'],
+  ['Contact', '#contact'],
+];
+const elsewhere = [
+  ['GitHub', links.github],
+  ['LinkedIn', links.linkedin],
+  ['X', links.x],
+];
+---
+
+<footer class="foot">
+  <div class="cols">
+    <ul>
+      <li class="h">Page</li>
+      {nav.map(([l, h]) => <li><a href={h}>{l}</a></li>)}
+    </ul>
+    <ul>
+      <li class="h">Elsewhere</li>
+      {elsewhere.map(([l, h]) => <li><a href={h}>{l}</a></li>)}
+    </ul>
+    <ul>
+      <li class="h">For agents</li>
+      <li><a href="/resume.json">resume.json</a></li>
+      <li><a href="/llms.txt">llms.txt</a></li>
+      <li><a href="/resume.txt">resume.txt</a></li>
+    </ul>
+    <ul>
+      <li class="h">Reach</li>
+      <li><a href={`mailto:${links.email}`}>{links.email}</a></li>
+      <li>In a terminal: curl {site.url.replace('https://', '')}</li>
+    </ul>
+  </div>
+
+  <div class="end">
+    <p class="mark" aria-hidden="true" data-rise><span>Ian Hudson</span> <span>Vieira</span></p>
+    <p class="legal">© {year} {site.name}</p>
+  </div>
+</footer>
+
+<style>
+  .foot {
+    position: relative;
+    display: grid;
+    row-gap: clamp(7rem, 20svh, 12rem);
+    padding: clamp(2.5rem, 5vw, 4rem) var(--m) 1.25rem;
+    background: var(--fg);
+    color: var(--bg);
+  }
+  .cols { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--m); font-size: var(--t-b); }
+  .cols li { padding: 0.15rem 0; overflow-wrap: anywhere; }
+  .cols .h { font-weight: 800; }
+  .cols a { display: inline-flex; min-height: 1.75rem; align-items: center; text-underline-offset: 0.25em; text-decoration-thickness: 2px; }
+  .cols a:hover { text-decoration-line: underline; }
+  .cols li:not(.h) { color: #3c3a35; }
+  .cols a { color: var(--bg); }
+  .mark {
+    font-family: var(--font-display);
+    font-size: calc((100vw - 2 * var(--m)) / 10.7);
+    line-height: 0.82;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    margin-bottom: 1.1rem;
+  }
+  .legal { font-size: var(--t-s); font-weight: 600; }
+
+  @media (max-width: 720px) {
+    .cols { grid-template-columns: 1fr 1fr; row-gap: 2rem; }
+    .mark { font-size: calc((100vw - 2 * var(--m)) / 6.7); display: grid; }
+  }
+</style>

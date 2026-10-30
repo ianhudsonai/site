@@ -1,0 +1,108 @@
+---
+import { tools, evalRows } from '../data/taco';
+import { projects } from '../data/site';
+const repo = projects[1].href;
+---
+
+<section id="tools" tabindex="-1" class="tools" aria-labelledby="tools-title">
+  <h2 id="tools-title" data-reveal>One table.<br />Six tools.</h2>
+
+  <div class="grid">
+    <div class="side" data-reveal>
+      <p>
+        taco-br-mcp is open source. It gives an AI assistant exact numbers from the TACO instead of recalled ones, and
+        says so when the table has no value.
+      </p>
+      <a href={repo} class="btn btn-ink hard">View on GitHub <span aria-hidden="true">→</span></a>
+    </div>
+
+    <div class="table">
+      <h3 class="word">Tools</h3>
+      <ul class="rows">
+        {
+          tools.map((t, i) => (
+            <li class:list={['row', { gap: i === 4 }]} data-reveal>
+              <a href={`${repo}#tools`}>
+                <code class="k" set:html={t.name.replaceAll("_", "_<wbr>")} />
+                <span class="v">{t.does}</span>
+                <span class="go" aria-hidden="true">→</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
+      <h3 class="word second">Evaluation, right answers</h3>
+      <div class="scoreboard" role="table" aria-label="Right answers without and with taco-br-mcp">
+        <div class="head" role="row">
+          <span role="columnheader">Question type</span>
+          <span role="columnheader" class="num">Without</span>
+          <span role="columnheader" class="num">With</span>
+        </div>
+        {
+          evalRows.map((r) => (
+            <div class="score" role="row" data-reveal>
+              <span role="cell">{r.kind}</span>
+              <span role="cell" class="num">{r.without}</span>
+              <span role="cell" class="num with">{r.withMcp}</span>
+            </div>
+          ))
+        }
+      </div>
+      <p class="note">
+        15 questions about the TACO, answered by claude -p with and without the server, three runs each, 90 runs on 30
+        October 2026. Method and limits are in the README.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .tools { background: var(--surface); padding: clamp(5rem, 11vw, 10rem) var(--m); }
+  h2 { font-family: var(--font-display); font-weight: 400; font-size: var(--t-d); line-height: 0.95; letter-spacing: -0.035em; text-transform: uppercase; margin-left: 3vw; }
+  .grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--m); margin-top: clamp(3rem, 6vw, 6rem); }
+  .side { grid-column: 1 / span 4; display: grid; gap: 1.75rem; align-content: space-between; align-self: stretch; padding-bottom: 5.5rem; }
+  .side p { max-width: 32ch; color: var(--muted); }
+  .side .btn { justify-self: start; }
+  .table { grid-column: 7 / -1; }
+  .word { font-size: var(--t-s); font-weight: 700; color: var(--muted); margin-bottom: 0.9rem; }
+  .word.second { margin-top: clamp(3rem, 5vw, 4.5rem); }
+
+  .rows { display: grid; }
+  .row a {
+    display: grid;
+    grid-template-columns: minmax(0, 11rem) minmax(0, 1fr) 1.5rem;
+    gap: 1.25rem;
+    align-items: baseline;
+    padding: 0.8rem 0.75rem 0.8rem 0;
+    position: relative;
+    isolation: isolate;
+    transition: padding 0.35s var(--ease-zine), color 0.2s;
+  }
+  .row a::before { content: ''; position: absolute; inset: 0 -0.75rem; z-index: -1; background: var(--accent); transform: scaleY(0); transform-origin: bottom; transition: transform 0.35s var(--ease-zine); }
+  .row a:hover, .row a:focus-visible { color: var(--on-accent); padding-left: 0.75rem; }
+  .row a:hover::before, .row a:focus-visible::before { transform: scaleY(1); }
+  .row .k { font-family: var(--font-mono); font-weight: 700; font-size: var(--t-s); overflow-wrap: anywhere; }
+  .row .v { font-size: var(--t-b); line-height: 1.4; }
+  .row .go { text-align: right; }
+  .row.gap { margin-top: 0; }
+
+  .scoreboard { display: grid; }
+  .head, .score { display: grid; grid-template-columns: minmax(0, 1fr) 6rem 6rem; gap: 1rem; padding: 0.85rem 0; align-items: baseline; }
+  .head { font-size: var(--t-s); font-weight: 700; color: var(--muted); }
+  .score { font-size: var(--t-b); }
+  .score:last-child { margin-top: 0.75rem; font-weight: 800; }
+  .num { text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .with { color: var(--accent); font-weight: 700; }
+  .note { margin-top: 1.25rem; max-width: 52ch; color: var(--muted); font-size: var(--t-s); }
+
+  @media (max-width: 900px) {
+    h2 { margin-left: 0; }
+    .grid { grid-template-columns: 1fr; }
+    .side, .table { grid-column: 1 / -1; }
+    .row a { grid-template-columns: minmax(0, 1fr) 1.5rem; row-gap: 0.25rem; }
+    .row .v { grid-column: 1 / -1; grid-row: 2; }
+    .row .go { grid-column: 2; grid-row: 1; }
+    .head, .score { grid-template-columns: minmax(0, 1fr) 4.5rem 4.5rem; }
+  }
+</style>

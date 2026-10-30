@@ -4,6 +4,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   site: 'https://ianhudson.dev',
+  devToolbar: { enabled: false },
   integrations: [sitemap()],
   vite: { plugins: [tailwindcss()] },
 });
