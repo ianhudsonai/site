@@ -1,88 +1,17 @@
 ---
 import Base from '../layouts/Base.astro';
-import { site, links, projects } from '../data/site';
-
-const social = [
-  { label: 'GitHub', href: links.github, text: 'github.com/ianhudsonai' },
-  { label: 'LinkedIn', href: links.linkedin, text: 'linkedin.com/in/ianhudsonvieira' },
-  { label: 'X', href: links.x, text: 'x.com/ianhudsonai' },
-  { label: 'Email', href: `mailto:${links.email}`, text: links.email },
-];
-
-const year = new Date().getFullYear();
-const linkClass =
-  'underline decoration-line underline-offset-4 transition-colors hover:text-accent hover:decoration-accent';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
 ---
 
 <Base>
   <a
     href="#main"
-    class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:rounded focus:bg-surface focus:px-3 focus:py-2"
+    class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-accent focus:px-3 focus:py-2 focus:text-on-accent"
   >
     Skip to content
   </a>
-
-  <div class="mx-auto max-w-2xl px-6 py-16 sm:py-24">
-    <header class="mb-20">
-      <p class="mb-4 font-mono text-sm text-accent">{site.role}</p>
-      <h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">{site.name}</h1>
-      <p class="mt-5 text-xl text-muted sm:text-2xl">{site.tagline}</p>
-      <nav aria-label="Social links" class="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm">
-        {social.map((s) => <a href={s.href} class={linkClass}>{s.label}</a>)}
-      </nav>
-    </header>
-
-    <main id="main" class="space-y-20">
-      <section aria-labelledby="about">
-        <h2 id="about" class="mb-5 font-mono text-sm uppercase tracking-widest text-muted">About</h2>
-        <div class="space-y-4 leading-relaxed">
-          {site.about.map((p) => <p>{p}</p>)}
-        </div>
-      </section>
-
-      <section aria-labelledby="projects">
-        <h2 id="projects" class="mb-5 font-mono text-sm uppercase tracking-widest text-muted">Projects</h2>
-        <ul class="grid gap-4">
-          {
-            projects.map((p) => (
-              <li>
-                <a
-                  href={p.href}
-                  class="group block rounded-xl border border-line bg-surface p-5 transition-colors hover:border-accent"
-                >
-                  <div class="flex items-baseline justify-between gap-4">
-                    <h3 class="text-lg font-medium">{p.name}</h3>
-                    <span class="font-mono text-xs text-muted">{p.status}</span>
-                  </div>
-                  <p class="mt-2 leading-relaxed text-muted">{p.summary}</p>
-                  <p class="mt-4 break-all font-mono text-sm text-accent">{p.cta} →</p>
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </section>
-
-      <section aria-labelledby="contact">
-        <h2 id="contact" class="mb-5 font-mono text-sm uppercase tracking-widest text-muted">Contact</h2>
-        <ul class="space-y-3">
-          {
-            social.map((s) => (
-              <li class="flex flex-col sm:flex-row sm:gap-4">
-                <span class="w-20 shrink-0 font-mono text-sm text-muted">{s.label}</span>
-                <a href={s.href} class={`${linkClass} break-all`}>{s.text}</a>
-              </li>
-            ))
-          }
-        </ul>
-        <p class="mt-6 font-mono text-sm text-muted">
-          Terminal fan? <code class="rounded bg-surface px-1.5 py-0.5 text-fg">curl {site.url.replace('https://', '')}</code>
-        </p>
-      </section>
-    </main>
-
-    <footer class="mt-24 border-t border-line pt-6 text-sm text-muted">
-      © {year} {site.name}
-    </footer>
-  </div>
+  <Nav />
+  <Hero />
+  <main id="main"></main>
 </Base>
