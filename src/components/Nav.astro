@@ -7,8 +7,8 @@ const items = [
 ---
 
 <header class="sticky top-0 z-40 border-b border-line bg-bg/85 backdrop-blur">
-  <div class="mx-auto flex max-w-5xl items-center justify-between px-5 py-3 sm:px-8">
-    <a href="#top" data-jump class="font-mono text-sm font-bold tracking-tight">
+  <div class="mx-auto flex max-w-5xl items-center justify-between px-5 py-1 sm:px-8">
+    <a href="#top" data-jump class="inline-flex min-h-11 items-center font-mono text-sm font-bold tracking-tight">
       <span class="text-accent">~/</span>ian<span class="text-accent">_</span>
     </a>
     <nav aria-label="Sections" class="flex gap-5 font-mono text-sm sm:gap-7">
@@ -17,7 +17,7 @@ const items = [
           <a
             href={i.href}
             data-jump
-            class="text-muted underline-offset-8 transition-colors hover:text-accent hover:underline"
+            class="inline-flex min-h-11 items-center text-muted underline-offset-8 transition-colors hover:text-accent hover:underline"
           >
             {i.label}
           </a>

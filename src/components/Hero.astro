@@ -20,20 +20,19 @@ const social = [
   </div>
 
   <div class="mx-auto max-w-5xl px-5 pb-20 pt-16 sm:px-8 sm:pb-32 sm:pt-28">
-    <p data-reveal class="font-mono text-sm text-accent">
+    <p class="font-mono text-sm text-accent">
       <span aria-hidden="true">$ </span>whoami <span class="text-muted">// {site.role.toLowerCase()}</span>
     </p>
 
     <h1
       id="name"
-      data-reveal
-      class="mt-6 font-display text-[clamp(2.6rem,10.5vw,7.25rem)] uppercase leading-[0.92] tracking-tight"
+      class="mt-6 font-display text-[clamp(2.6rem,10.5vw,6rem)] uppercase leading-[0.92] tracking-tight"
       style="-webkit-text-stroke: 0; text-shadow: 5px 5px 0 var(--accent);"
     >
       Ian Hudson<br />Vieira
     </h1>
 
-    <div data-reveal class="mt-10">
+    <div class="mt-10">
       <p
         class="hard relative inline-block max-w-xl border-2 border-fg bg-surface px-5 py-4 text-lg sm:text-xl"
         style="--rot: -1.2deg;"
@@ -42,7 +41,7 @@ const social = [
       </p>
     </div>
 
-    <nav data-reveal aria-label="Social links" class="mt-10 flex flex-wrap gap-3 font-mono text-sm">
+    <nav aria-label="Social links" class="mt-10 flex flex-wrap gap-3 font-mono text-sm">
       {
         social.map((s, i) => (
           <a

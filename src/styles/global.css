@@ -103,6 +103,10 @@ html.motion [data-reveal] { opacity: 0; }
 html.motion #boot { display: block; }
 #boot { display: none; position: fixed; inset: 0; z-index: 60; background: var(--bg); }
 
+h1, h2, h3 { text-wrap: balance; }
+
+/* Reduced motion keeps colour feedback and drops movement: the shadow still changes on hover, it just does not travel. */
 @media (prefers-reduced-motion: reduce) {
-  * { transition-duration: 0.01ms !important; animation: none !important; }
+  .hard { transition: none; }
+  .hard:hover, .hard:focus-visible { translate: none; }
 }
