@@ -1,37 +1,108 @@
 @import 'tailwindcss';
 @import '@fontsource-variable/inter';
 @import '@fontsource-variable/jetbrains-mono';
+@import '@fontsource/archivo-black';
 
 @theme {
   --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, monospace;
-  --color-bg: #0c0d10;
-  --color-surface: #14161b;
-  --color-line: #23262e;
-  --color-fg: #e8e9ec;
-  --color-muted: #a1a5b0;
-  --color-accent: #7dd3a8;
+  --font-display: 'Archivo Black', 'Inter Variable', system-ui, sans-serif;
+  --ease-zine: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-line: var(--line);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+}
+
+/* Tokens live on :root so a second skin can swap them with html[data-theme='...'] and reuse the same markup. */
+:root {
+  --bg: #0b0b0c;
+  --surface: #141415;
+  --line: #2b2a28;
+  --fg: #f2efe8;
+  --muted: #a8a399;
+  --accent: #ff5a1f;
+  --on-accent: #0b0b0c;
+  --shadow: 5px;
+  --shadow-hover: 9px;
+  --dot: 9px;
 }
 
 html {
-  background: var(--color-bg);
-  color: var(--color-fg);
+  background: var(--bg);
+  color: var(--fg);
   color-scheme: dark;
-  scroll-behavior: smooth;
 }
 
 body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--on-accent);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
-  border-radius: 4px;
+  border-radius: 2px;
 }
 
+/* Lenis owns smooth scrolling, so native smoothing has to stay off. */
+html.lenis, html.lenis body { height: auto; }
+.lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
+
+/* Paper grain: a static noise tile, nudged in four steps so it flickers like print. */
+.grain {
+  position: fixed;
+  inset: -50%;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+html.motion .grain { animation: grain 0.6s steps(4) infinite; }
+@keyframes grain {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-3%, 2%); }
+  50% { transform: translate(2%, -3%); }
+  75% { transform: translate(-2%, -1%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* Halftone dots on a 9px grid. --ht-y is scrubbed from scroll by the motion script. */
+.halftone {
+  background-image: radial-gradient(circle at center, var(--accent) 1.4px, transparent 1.8px);
+  background-size: var(--dot) var(--dot);
+  background-position: 0 var(--ht-y, 0px);
+}
+
+/* Hard, flat shadow that grows on hover while the card lifts to meet it. */
+.hard {
+  --s: var(--shadow);
+  box-shadow: var(--s) var(--s) 0 var(--accent);
+  transform: rotate(var(--rot, 0deg));
+  transition: box-shadow 0.5s var(--ease-zine), translate 0.5s var(--ease-zine);
+}
+.hard:hover, .hard:focus-visible {
+  --s: var(--shadow-hover);
+  translate: -4px -4px;
+}
+
+/* Elements that animate in start hidden only when the motion script is going to reveal them. */
+html.motion [data-reveal] { opacity: 0; }
+html.motion #boot { display: block; }
+#boot { display: none; position: fixed; inset: 0; z-index: 60; background: var(--bg); }
+
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  * { transition: none !important; }
+  * { transition-duration: 0.01ms !important; animation: none !important; }
 }

@@ -19,7 +19,7 @@ const ogImage = new URL('/og.png', site.url).href;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#0c0d10" />
+    <meta name="theme-color" content="#0b0b0c" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
@@ -37,8 +37,19 @@ const ogImage = new URL('/og.png', site.url).href;
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <script is:inline>
+      // Opt into the motion layer only when the visitor allows motion. A timeout releases the page if the script never loads.
+      if (matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+        document.documentElement.classList.add('motion');
+        setTimeout(function () {
+          if (!window.__zineReady) document.documentElement.classList.remove('motion');
+        }, 4000);
+      }
+    </script>
   </head>
   <body class="min-h-screen antialiased">
+    <div id="boot" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
     <slot />
   </body>
 </html>
