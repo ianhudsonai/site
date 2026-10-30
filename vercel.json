@@ -1,0 +1,9 @@
+{
+  "rewrites": [
+    {
+      "source": "/",
+      "has": [{ "type": "header", "key": "user-agent", "value": "^(curl|Wget|HTTPie)/.*" }],
+      "destination": "/resume.txt"
+    }
+  ]
+}
