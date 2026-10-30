@@ -1,58 +1,105 @@
 ---
-import { site, links } from '../data/site';
+import { site, links, projects } from '../data/site';
 
-const social = [
-  { label: 'GitHub', href: links.github },
-  { label: 'LinkedIn', href: links.linkedin },
-  { label: 'X', href: links.x },
-  { label: 'Email', href: `mailto:${links.email}` },
-];
+const kilo = projects[0];
 ---
 
-<section id="top" class="relative isolate overflow-hidden" aria-labelledby="name">
-  <!-- Halftone field, faded out toward the text. Decorative only. -->
-  <div
-    class="halftone pointer-events-none absolute inset-y-0 right-0 -z-10 w-full opacity-30 sm:w-3/5"
-    style="mask-image: radial-gradient(ellipse at 85% 30%, #000 0%, transparent 70%); -webkit-mask-image: radial-gradient(ellipse at 85% 30%, #000 0%, transparent 70%);"
-    data-parallax
-    aria-hidden="true"
-  >
-  </div>
-
-  <div class="mx-auto max-w-5xl px-5 pb-20 pt-16 sm:px-8 sm:pb-32 sm:pt-28">
-    <p class="font-mono text-sm text-accent">
-      <span aria-hidden="true">$ </span>whoami <span class="text-muted">// {site.role.toLowerCase()}</span>
-    </p>
-
-    <h1
-      id="name"
-      class="mt-6 font-display text-[clamp(2.6rem,10.5vw,6rem)] uppercase leading-[0.92] tracking-tight"
-      style="-webkit-text-stroke: 0; text-shadow: 5px 5px 0 var(--accent);"
-    >
-      Ian Hudson<br />Vieira
-    </h1>
-
-    <div class="mt-10">
-      <p
-        class="hard relative inline-block max-w-xl border-2 border-fg bg-surface px-5 py-4 text-lg sm:text-xl"
-        style="--rot: -1.2deg;"
-      >
-        {site.tagline}
-      </p>
+<section id="top" class="hero" aria-labelledby="name">
+  <h1 id="name" class="monument">
+    <span class="ln ln-a"><span class="mask"><span class="w" data-hero="line">Ian</span></span> <span class="mask"><span class="w" data-hero="line">Hudson</span></span></span>
+    <span class="ln ln-b"><span class="mask"><span class="w" data-hero="line">Vieira</span></span></span>
+  </h1>
+  <p class="sr-only">{site.role}. {links.email}</p>
+  <div class="hero-main">
+    <div class="hero-copy" data-hero="copy">
+      <p class="hero-line">{site.tagline}</p>
+      <a href={kilo.href} class="btn hard">Join the Kilo waitlist <span aria-hidden="true">→</span></a>
     </div>
 
-    <nav aria-label="Social links" class="mt-10 flex flex-wrap gap-3 font-mono text-sm">
-      {
-        social.map((s, i) => (
-          <a
-            href={s.href}
-            class="hard border-2 border-fg bg-bg px-4 py-2 font-bold transition-colors hover:bg-accent hover:text-on-accent"
-            style={`--rot: ${[1, -0.8, 1.4, -1.2][i]}deg;`}
-          >
-            {s.label}
-          </a>
-        ))
-      }
-    </nav>
+    <figure class="hero-plate" data-hero="plate">
+      <video
+        class="hero-video"
+        muted
+        loop
+        playsinline
+        preload="none"
+        poster="/kilo/phone-poster.webp"
+        width="700"
+        height="1400"
+        aria-label="Kilo, the iPhone app, turning from its orange back to its workout screen"
+        data-loop
+      >
+        <source src="/kilo/phone-loop.webm" type="video/webm" />
+        <source src="/kilo/phone-loop.mp4" type="video/mp4" />
+      </video>
+    </figure>
   </div>
+
 </section>
+
+<style>
+  .hero {
+    --name: calc((100cqw - 2 * var(--m)) / 6.62);
+    container-type: inline-size;
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    min-height: 100svh;
+    padding: 4.5rem var(--m) 1.1rem;
+    overflow: clip;
+  }
+  .hero-main {
+    display: grid;
+    align-items: end;
+    min-height: 0;
+    grid-row: 1;
+  }
+  .hero-copy { position: relative; z-index: 2; padding-bottom: calc(var(--name) * 0.45); max-width: 26rem; }
+  .hero-line {
+    font-size: var(--t-l);
+    font-weight: 700;
+    line-height: 1.22;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.75rem;
+    max-width: 18ch;
+  }
+  /* The phone floats behind the first line of the name, so the letters cross it. */
+  .hero-plate {
+    position: absolute;
+    z-index: 0;
+    right: 7%;
+    top: 3.75rem;
+    bottom: calc(1.1rem + var(--name) * 0.92);
+    aspect-ratio: 700 / 1400;
+    background: var(--bg) url('/kilo/phone-poster.webp') center / cover;
+  }
+  .hero-video { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+  .monument {
+    position: relative;
+    z-index: 1;
+    grid-row: 2;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: var(--name);
+    line-height: 0.8;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    text-wrap: nowrap;
+    font-kerning: normal;
+    /* Over the dark ground the letters stay paper-white; over the pale phone screen they flip to ink. */
+    mix-blend-mode: difference;
+  }
+  .ln { display: block; }
+  .mask { display: inline-block; overflow: clip; padding: 0.06em 0 0.02em; vertical-align: top; }
+  .w { display: inline-block; }
+
+  @media (max-width: 720px) {
+    .hero { padding-top: 4rem; }
+    .hero-main { gap: 1.25rem; }
+    .hero-plate { right: 4%; top: 3.75rem; bottom: auto; height: min(50svh, 30rem); }
+    .hero-copy { padding-bottom: 1.25rem; }
+    .hero-line { max-width: 24ch; }
+  }
+</style>

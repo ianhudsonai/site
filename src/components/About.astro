@@ -1,21 +1,49 @@
 ---
-import SectionLabel from './SectionLabel.astro';
-import { site } from '../data/site';
+import { site, links } from '../data/site';
+const [, second, third] = site.about;
 ---
 
-<section id="about" tabindex="-1" aria-labelledby="about-title" class="scroll-mt-14 border-t border-line">
-  <div class="mx-auto grid max-w-5xl gap-10 px-5 py-20 sm:px-8 md:grid-cols-[14rem_1fr] md:py-28">
-    <div>
-      <SectionLabel id="about-title" title="About" />
-    </div>
-    <div class="max-w-2xl space-y-5 text-lg leading-relaxed">
-      {
-        site.about.map((p, i) => (
-          <p data-reveal class={i === 0 ? 'text-xl text-fg sm:text-2xl' : 'text-muted'}>
-            {p}
-          </p>
-        ))
-      }
-    </div>
+<section id="about" tabindex="-1" class="about" aria-labelledby="about-title">
+  <h2 id="about-title" class="sr-only">About</h2>
+  <div class="facts" data-reveal>
+    <p><b>Role</b>{site.role}</p>
+    <p><b>Now</b>Kilo and taco-br-mcp</p>
+    <p><b>Reach</b><a href={`mailto:${links.email}`}>{links.email}</a></p>
+  </div>
+  <div class="text">
+    <p class="lead" data-reveal>
+      <img src="/kilo/icone.webp" width="168" height="168" alt="Kilo app icon" loading="lazy" class="drop" />
+      <span class="who">I'm a developer and solo founder.</span> I design and build everything myself, from the app to the tooling around it.
+    </p>
+    <p class="rest" data-reveal>{second.replace(/^My main project/, 'My main project')}</p>
+    <p class="rest" data-reveal>{third}</p>
   </div>
 </section>
+
+<style>
+  .about {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: var(--m);
+    background: var(--fg);
+    color: var(--bg);
+    padding: clamp(5rem, 11vw, 10rem) var(--m);
+  }
+  .facts { grid-column: 1 / span 2; display: grid; gap: 1.25rem; align-content: start; font-size: var(--t-s); font-weight: 500; padding-top: 0.6rem; }
+  .facts b { display: block; font-weight: 800; }
+  .facts a { overflow-wrap: anywhere; text-decoration: underline; text-underline-offset: 0.2em; }
+  .text { grid-column: 3 / -1; max-width: 62rem; }
+  .lead { font-size: var(--t-h); line-height: 1.15; letter-spacing: -0.015em; font-weight: 500; }
+  .rest { margin-top: 1.5rem; max-width: 40rem; font-size: var(--t-b); color: #3f3d39; }
+  .who { font-weight: 800; }
+  .lead .drop { float: left; width: 3.6em; height: 3.6em; margin: 0.1em 0.5em 0 0; border: 2px solid var(--bg); }
+
+  @media (max-width: 900px) {
+    .facts { grid-column: 1 / -1; order: 2; grid-template-columns: repeat(3, 1fr); }
+    .text { grid-column: 1 / -1; }
+    .lead .drop { width: 5rem; height: 5rem; font-size: 1rem; }
+  }
+  @media (max-width: 560px) {
+    .facts { grid-template-columns: 1fr; }
+  }
+</style>

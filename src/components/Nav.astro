@@ -1,28 +1,44 @@
 ---
 const items = [
-  { href: '#about', label: 'About' },
-  { href: '#projects', label: 'Projects' },
+  { href: '#kilo', label: 'Kilo' },
+  { href: '#meal', label: 'Weigh a meal' },
+  { href: '#tools', label: 'Tools' },
   { href: '#contact', label: 'Contact' },
 ];
 ---
 
-<header class="sticky top-0 z-40 border-b border-line bg-bg/85 backdrop-blur">
-  <div class="mx-auto flex max-w-5xl items-center justify-between px-5 py-1 sm:px-8">
-    <a href="#top" data-jump class="inline-flex min-h-11 items-center font-mono text-sm font-bold tracking-tight">
-      <span class="text-accent">~/</span>ian<span class="text-accent">_</span>
-    </a>
-    <nav aria-label="Sections" class="flex gap-5 font-mono text-sm sm:gap-7">
-      {
-        items.map((i) => (
-          <a
-            href={i.href}
-            data-jump
-            class="inline-flex min-h-11 items-center text-muted underline-offset-8 transition-colors hover:text-accent hover:underline"
-          >
-            {i.label}
-          </a>
-        ))
-      }
-    </nav>
-  </div>
+<header class="nav">
+  <a href="#top" class="nav-mark" aria-label="Ian Hudson Vieira, back to top">IHV</a>
+  <nav aria-label="Sections">
+    {items.map((i) => <a href={i.href}>{i.label}</a>)}
+  </nav>
 </header>
+
+<style>
+  /* Difference blending keeps the links legible over the dark ground, the orange fields and the paper plates alike. */
+  .nav {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 40;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.2rem var(--m);
+    background: var(--bg);
+    color: var(--fg);
+  }
+  .nav a {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    font-weight: 600;
+    font-size: 1rem;
+    text-underline-offset: 0.45em;
+  }
+  .nav a:hover { color: var(--accent); text-decoration: underline; text-decoration-thickness: 3px; }
+  .nav-mark { font-family: var(--font-display); font-size: 1.25rem !important; letter-spacing: -0.02em; }
+  nav { display: flex; gap: clamp(1rem, 2.4vw, 2.25rem); }
+  @media (max-width: 560px) {
+    nav a:nth-child(2) { display: none; }
+  }
+</style>

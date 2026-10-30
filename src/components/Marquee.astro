@@ -1,0 +1,44 @@
+---
+import { tacoFoods } from '../data/taco';
+---
+
+<section class="band" aria-label="Energy of common Brazilian foods per 100 g, from the TACO">
+  <div class="window"><div class="track" data-marquee>
+    {
+      [0, 1].map((n) => (
+        <ul class="run" aria-hidden={n === 1 ? 'true' : undefined}>
+          {tacoFoods.map((f) => (
+            <li>
+              <span class="name">{f.label}</span> <span class="num">{f.kcal} kcal</span>
+            </li>
+          ))}
+        </ul>
+      ))
+    }
+  </div></div>
+  <p class="note">Per 100 g, from the TACO table</p>
+</section>
+
+<style>
+  .band {
+    position: relative;
+    background: var(--accent);
+    color: var(--on-accent);
+    overflow: clip;
+    padding: 1.1rem 0 0.6rem;
+  }
+  .window { margin: 0 var(--m); overflow: clip; }
+  .track { display: flex; width: max-content; }
+  .run { display: flex; flex: none; }
+  .run li { display: flex; align-items: baseline; gap: 0.6rem; padding-right: clamp(1.5rem, 3vw, 3rem); white-space: nowrap; }
+  .name { font-family: var(--font-display); font-size: var(--t-h); text-transform: uppercase; letter-spacing: -0.03em; line-height: 1; }
+  .num { font-weight: 700; font-size: var(--t-s); font-variant-numeric: tabular-nums; }
+  .note { padding: 0.4rem var(--m) 0; font-size: var(--t-s); font-weight: 600; }
+  html.motion .track { animation: run 48s linear infinite; }
+  html.motion .band:hover .track { animation-play-state: paused; }
+  @keyframes run { to { transform: translateX(-50%); } }
+  /* Without motion the strip is a static, wrapped list so nothing is cut off. */
+  html:not(.motion) .track { width: auto; }
+  html:not(.motion) .run { flex-wrap: wrap; row-gap: 0.4rem; }
+  html:not(.motion) .run[aria-hidden='true'] { display: none; }
+</style>
