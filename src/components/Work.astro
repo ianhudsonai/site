@@ -1,7 +1,5 @@
 ---
-import { projects } from '../data/site';
 import { tacoFoods, sumPlate, tacoSource } from '../data/taco';
-const [kilo, taco] = projects;
 
 const plate = Object.fromEntries(tacoFoods.map((f) => [f.id, f.grams]));
 const lines = tacoFoods.filter((f) => plate[f.id] > 0).map((f) => ({ label: f.label, grams: plate[f.id], kcal: Math.round((f.kcal * plate[f.id]) / 100) }));
@@ -27,21 +25,6 @@ const total = Math.round(sumPlate(plate).kcal);
       <span class="half half-l" data-tear="tl">Work</span>
       <span class="half half-r" data-tear="tr" aria-hidden="true">Work</span>
     </h2>
-
-    <div class="card hard" data-tear="card">
-      <ul>
-        <li>
-          <h3>{kilo.name}</h3>
-          <p>An offline-first iPhone app for workout and food logging, built for Brazilians. Pre-launch.</p>
-          <a href={kilo.href}>{kilo.cta} <span aria-hidden="true">→</span></a>
-        </li>
-        <li>
-          <h3>{taco.name}</h3>
-          <p>An open-source MCP server that gives AI assistants the TACO food table.</p>
-          <a href={taco.href}>GitHub <span aria-hidden="true">→</span></a>
-        </li>
-      </ul>
-    </div>
   </div>
 </section>
 
@@ -100,23 +83,6 @@ const total = Math.round(sumPlate(plate).kcal);
   .half-l { color: var(--bg); clip-path: inset(0 50% 0 0); }
   .half-r { position: absolute; inset: 0; color: var(--fg); clip-path: inset(0 0 0 50%); }
 
-  .card {
-    position: absolute;
-    left: 50%;
-    bottom: 2rem;
-    translate: -50% 0;
-    width: min(40rem, calc(100% - 2 * var(--m)));
-    padding: 1.25rem 1.4rem;
-    background: var(--surface);
-    border: 2px solid var(--fg);
-    text-align: left;
-  }
-  .card:hover { translate: -50% 0; }
-  .card ul { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-  .card h3 { font-family: var(--font-display); font-weight: 400; font-size: var(--t-l); letter-spacing: -0.02em; line-height: 1; }
-  .card p { margin: 0.5rem 0 0.75rem; color: var(--muted); font-size: var(--t-b); line-height: 1.35; }
-  .card a { display: inline-flex; min-height: 2.75rem; align-items: center; gap: 0.4rem; font-weight: 700; font-size: var(--t-b); text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 3px; text-underline-offset: 0.3em; overflow-wrap: anywhere; }
-  .card a:hover { color: var(--accent); }
 
   /* With the motion layer on, the section is two screens tall and the stage holds while the halves meet and part. */
   html.motion .tear { height: 230svh; }
@@ -127,10 +93,5 @@ const total = Math.round(sumPlate(plate).kcal);
     .pane-l img { top: 4rem; width: 78%; height: 30svh; object-fit: cover; object-position: top; }
     .frag { display: none; }
     .title { font-size: 25vw; top: 40%; }
-    .card { bottom: 1rem; padding: 1rem 1.1rem; }
-    .card ul { grid-template-columns: 1fr; gap: 0.9rem; }
-    .card p { display: none; }
-    .card h3 { font-size: var(--t-b); }
-    .card li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 1rem; }
   }
 </style>
