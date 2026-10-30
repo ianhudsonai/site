@@ -1,6 +1,6 @@
 # ianhudson.dev
 
-Personal site of Ian Hudson Vieira. One static page built with [Astro](https://astro.build) and Tailwind CSS v4, hosted on Vercel. The look is "Terminal zine": dark, mono type, one orange accent, hard shadows and a halftone transition.
+Personal site of Ian Hudson Vieira. One static page built with [Astro](https://astro.build) and Tailwind CSS v4, hosted on Vercel. The look is "Terminal zine": dark, mono type, one yellow accent, hard shadows and a halftone transition.
 
 ## Run it
 

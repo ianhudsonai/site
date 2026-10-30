@@ -18,7 +18,7 @@ if (root) {
   const bar = q('[data-bar]');
   const legend = q('[data-legend]');
   const req = q('[data-req]');
-  const swatch = ['var(--accent)', 'var(--fg)', '#7d7a73'];
+  const swatch = ['var(--bg)', 'var(--accent)', '#7d7a73'];
   const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const grams = () => {

@@ -8,14 +8,14 @@ const items = [
 ---
 
 <header class="nav">
-  <a href="#top" class="nav-mark" aria-label="Ian Hudson Vieira, back to top">IHV</a>
+  <a href="#top" class="nav-mark" aria-label="IHV, Ian Hudson Vieira, back to top">IHV</a>
   <nav aria-label="Sections">
     {items.map((i) => <a href={i.href}>{i.label}</a>)}
   </nav>
 </header>
 
 <style>
-  /* Difference blending keeps the links legible over the dark ground, the orange fields and the paper plates alike. */
+  /* Difference blending keeps the links legible over the dark ground, the accent fields and the paper plates alike. */
   .nav {
     position: fixed;
     inset: 0 0 auto 0;
