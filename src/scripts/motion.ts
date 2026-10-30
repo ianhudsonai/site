@@ -19,7 +19,7 @@ function start() {
   window.__zineReady = true;
 
   const css = getComputedStyle(root);
-  const accent = css.getPropertyValue('--accent').trim() || '#ff5a1f';
+  const accent = css.getPropertyValue('--accent').trim() || '#f3d438';
   const ink = css.getPropertyValue('--bg').trim() || '#0b0b0c';
 
   /* Smooth scroll. Lerp 0.09 gives the weighty glide both reference sites use. */
