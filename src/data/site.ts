@@ -4,11 +4,9 @@ export const site = {
   url: 'https://ianhudson.dev',
   name: 'Ian Hudson Vieira',
   role: 'Developer and founder',
-  // DRAFT: awaiting approval, see the tagline options in the PR description.
   tagline: 'I build apps and AI tools. Founder of Kilo.',
   description:
     'Ian Hudson Vieira is a developer and solo founder building Kilo, an offline-first iPhone app for workout and food logging, and open tools like taco-br-mcp.',
-  // DRAFT: awaiting approval. Location intentionally left out until confirmed.
   about: [
     "I'm a developer and solo founder. I design and build everything myself, from the app to the tooling around it.",
     'My main project is Kilo, an offline-first iPhone app for logging workouts and food, made for Brazilians. I also publish open-source tools, like an MCP server that gives AI assistants access to Brazilian nutrition data.',
@@ -35,7 +33,6 @@ export const projects: Project[] = [
   {
     name: 'Kilo',
     status: 'Pre-launch',
-    // DRAFT: awaiting approval.
     summary:
       'An offline-first iPhone app for logging workouts and food, built for Brazilians. Designed and built solo. Join the waitlist.',
     href: 'https://kiloapp.com.br',
