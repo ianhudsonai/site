@@ -1,6 +1,6 @@
 # ianhudson.dev
 
-Personal site of Ian Hudson Vieira. One static page built with [Astro](https://astro.build) and Tailwind CSS v4, meant to be hosted on Vercel (Hobby plan).
+Personal site of Ian Hudson Vieira. One static page built with [Astro](https://astro.build) and Tailwind CSS v4, hosted on Vercel. The look is "Terminal zine": dark, mono type, one orange accent, hard shadows and a halftone transition.
 
 ## Run it
 
@@ -13,8 +13,10 @@ npm run preview  # serve the production build
 
 ## Where things live
 
-- `src/data/site.ts`: all copy, links and projects. The page, `/resume.json`, `/resume.txt` and `/llms.txt` are all generated from this file, so edit it in one place.
-- `src/pages/index.astro`: the page. `src/layouts/Base.astro`: head, SEO and Open Graph tags.
+- `src/data/site.ts`: all copy, links and projects. The page, `/resume.json`, `/resume.txt`, `/llms.txt`, `/llms-full.txt`, `/ai-index.json` and the JSON-LD are all generated from this file, so edit it in one place.
+- `src/pages/index.astro`: the page, composed from `src/components/` (Nav, Hero, About, Projects, Contact, Footer). `src/layouts/Base.astro`: head, SEO, Open Graph tags and JSON-LD.
+- `src/styles/global.css`: design tokens (`:root` variables), grain, halftone and hard-shadow helpers. A second skin can override the variables with `html[data-theme='...']` and reuse the same markup.
+- `src/scripts/motion.ts`: Lenis smooth scroll, scroll reveals and the halftone transition (GSAP). It only runs when the visitor has not asked for reduced motion; otherwise the page is fully static and anchors jump natively.
 - `public/`: favicon, `og.png`, `robots.txt`. The sitemap is generated at build time.
 - `scripts/og.html` + `npm run og`: regenerate `public/og.png` (needs Playwright with Chromium).
 - `vercel.json`: serves the plain-text résumé at `/` when the user agent is curl, Wget or HTTPie. Everyone else gets the page. Try it after deploying with `curl https://ianhudson.dev`.

@@ -21,6 +21,8 @@ ${projects.map((p) => `- [${p.name}](${p.href}): ${p.summary}`).join('\n')}
 
 - [Resume (JSON)](${site.url}/resume.json)
 - [Resume (plain text)](${site.url}/resume.txt)
+- [Whole site as one document](${site.url}/llms-full.txt)
+- [Site index (JSON)](${site.url}/ai-index.json)
 `;
   return new Response(body, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
 };
