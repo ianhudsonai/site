@@ -12,7 +12,6 @@ const [, second, third] = site.about;
   </div>
   <div class="text">
     <p class="lead" data-reveal>
-      <img src="/kilo/icone.webp" width="168" height="168" alt="Kilo app icon" loading="lazy" class="drop" />
       <span class="who">I'm a developer and solo founder.</span> I design and build everything myself, from the app to the tooling around it.
     </p>
     <p class="rest" data-reveal>{second.replace(/^My main project/, 'My main project')}</p>
@@ -36,12 +35,12 @@ const [, second, third] = site.about;
   .lead { font-size: var(--t-h); line-height: 1.15; letter-spacing: -0.015em; font-weight: 500; }
   .rest { margin-top: 1.5rem; max-width: 40rem; font-size: var(--t-b); color: #3f3d39; }
   .who { font-weight: 800; }
-  .lead .drop { float: left; width: 3.6em; height: 3.6em; margin: 0.1em 0.5em 0 0; border: 2px solid var(--bg); }
+  .lead::before { content: 'IHV'; float: left; display: grid; place-items: center; width: 3.1em; height: 3.1em; margin: 0.1em 0.5em 0 0; background: var(--accent); color: var(--on-accent); font-family: var(--font-display); font-size: 1em; letter-spacing: -0.04em; line-height: 1; }
 
   @media (max-width: 900px) {
     .facts { grid-column: 1 / -1; order: 2; grid-template-columns: repeat(3, 1fr); }
     .text { grid-column: 1 / -1; }
-    .lead .drop { width: 5rem; height: 5rem; font-size: 1rem; }
+    .lead::before { width: 4.25rem; height: 4.25rem; font-size: 1.25rem; }
   }
   @media (max-width: 560px) {
     .facts { grid-template-columns: 1fr; }

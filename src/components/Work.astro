@@ -1,0 +1,136 @@
+---
+import { projects } from '../data/site';
+import { tacoFoods, sumPlate, tacoSource } from '../data/taco';
+const [kilo, taco] = projects;
+
+const plate = Object.fromEntries(tacoFoods.map((f) => [f.id, f.grams]));
+const lines = tacoFoods.filter((f) => plate[f.id] > 0).map((f) => ({ label: f.label, grams: plate[f.id], kcal: Math.round((f.kcal * plate[f.id]) / 100) }));
+const total = Math.round(sumPlate(plate).kcal);
+---
+
+<section id="work" tabindex="-1" class="tear" aria-labelledby="work-title">
+  <div class="stage">
+    <div class="pane pane-l" data-tear="l">
+      <img src="/kilo/alimentacao-dia.webp" width="780" height="1688" alt="Kilo's food log for one day, in Portuguese: banana, boiled egg, French roll and rice, each with its calories" loading="lazy" />
+    </div>
+    <div class="pane pane-r" data-tear="r">
+      <div class="frag" role="img" aria-label={`A taco-br-mcp meal total: ${lines.map((l) => `${l.label} ${l.grams} g, ${l.kcal} kcal`).join('; ')}; total ${total} kcal. Source: ${tacoSource}`}>
+        <p class="frag-h"><code>calc_meal</code></p>
+        <ul aria-hidden="true">
+          {lines.map((l) => <li><span>{l.label} {l.grams} g</span><b>{l.kcal}</b></li>)}
+        </ul>
+        <p class="frag-t" aria-hidden="true"><span>Total</span><b>{total} kcal</b></p>
+      </div>
+    </div>
+
+    <h2 id="work-title" class="title">
+      <span class="half half-l" data-tear="tl">Work</span>
+      <span class="half half-r" data-tear="tr" aria-hidden="true">Work</span>
+    </h2>
+
+    <div class="card hard" data-tear="card">
+      <ul>
+        <li>
+          <h3>{kilo.name}</h3>
+          <p>An offline-first iPhone app for workout and food logging, built for Brazilians. Pre-launch.</p>
+          <a href={kilo.href}>{kilo.cta} <span aria-hidden="true">→</span></a>
+        </li>
+        <li>
+          <h3>{taco.name}</h3>
+          <p>An open-source MCP server that gives AI assistants the TACO food table.</p>
+          <a href={taco.href}>GitHub <span aria-hidden="true">→</span></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .tear { position: relative; }
+  .stage {
+    position: relative;
+    height: 100svh;
+    min-height: 40rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow: clip;
+    background: var(--bg);
+  }
+  .pane { position: relative; overflow: clip; }
+  .pane-l { background: var(--accent); }
+  .pane-r { background: var(--surface); }
+  .pane img { position: absolute; width: 46%; max-width: 22rem; height: auto; left: var(--m); top: 4.25rem; }
+
+  /* The right pane holds a drawn fragment of taco-br-mcp's own output. */
+  .frag {
+    position: absolute;
+    right: var(--m);
+    top: 5.25rem;
+    width: 46%;
+    max-width: 22rem;
+    padding: 1.1rem 1.25rem 1rem;
+    background: var(--fg);
+    color: var(--bg);
+    border: 2px solid var(--bg);
+  }
+  .frag-h code { font-family: var(--font-mono); /* taste-skill-ignore: a literal tool name */ }
+  .frag-h { font-weight: 700; font-size: var(--t-s); margin-bottom: 0.75rem; }
+  .frag ul { display: grid; gap: 0.35rem; font-size: var(--t-b); font-weight: 600; }
+  .frag li, .frag-t { display: flex; justify-content: space-between; gap: 1rem; font-variant-numeric: tabular-nums; }
+  .frag-t { margin-top: 0.9rem; padding-top: 0.7rem; border-top: 3px solid var(--bg); font-size: var(--t-l); font-weight: 800; line-height: 1.1; }
+
+  .title {
+    position: absolute;
+    left: 50%;
+    top: 46%;
+    translate: -50% -50%;
+    width: 100%;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(6rem, 20vw, 21rem);
+    line-height: 0.8;
+    letter-spacing: -0.05em;
+    text-transform: uppercase;
+    text-align: center;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  /* The word is set twice, each copy clipped to its own half. */
+  .half { display: block; }
+  .half-l { color: var(--bg); clip-path: inset(0 50% 0 0); }
+  .half-r { position: absolute; inset: 0; color: var(--fg); clip-path: inset(0 0 0 50%); }
+
+  .card {
+    position: absolute;
+    left: 50%;
+    bottom: 2rem;
+    translate: -50% 0;
+    width: min(40rem, calc(100% - 2 * var(--m)));
+    padding: 1.25rem 1.4rem;
+    background: var(--surface);
+    border: 2px solid var(--fg);
+    text-align: left;
+  }
+  .card:hover { translate: -50% 0; }
+  .card ul { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .card h3 { font-family: var(--font-display); font-weight: 400; font-size: var(--t-l); letter-spacing: -0.02em; line-height: 1; }
+  .card p { margin: 0.5rem 0 0.75rem; color: var(--muted); font-size: var(--t-b); line-height: 1.35; }
+  .card a { display: inline-flex; min-height: 2.75rem; align-items: center; gap: 0.4rem; font-weight: 700; font-size: var(--t-b); text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 3px; text-underline-offset: 0.3em; overflow-wrap: anywhere; }
+  .card a:hover { color: var(--accent); }
+
+  /* With the motion layer on, the section is two screens tall and the stage holds while the halves meet and part. */
+  html.motion .tear { height: 230svh; }
+  html.motion .stage { position: sticky; top: 0; }
+
+  @media (max-width: 720px) {
+    .stage { min-height: 38rem; }
+    .pane-l img { top: 4rem; width: 78%; height: 30svh; object-fit: cover; object-position: top; }
+    .frag { display: none; }
+    .title { font-size: 25vw; top: 40%; }
+    .card { bottom: 1rem; padding: 1rem 1.1rem; }
+    .card ul { grid-template-columns: 1fr; gap: 0.9rem; }
+    .card p { display: none; }
+    .card h3 { font-size: var(--t-b); }
+    .card li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 1rem; }
+  }
+</style>

@@ -126,7 +126,7 @@ function start() {
   sweep(0, 0.9, 'power2.inOut').then(() => canvas.style.setProperty('pointer-events', 'none'));
   setTimeout(armReveals, 350);
   heroIntro();
-  scenes(lenis);
+  scenes();
 
   /* Section jumps: cover the screen from the click point, jump while hidden, then reveal. */
   async function jump(target: HTMLElement, hash: string, x: number, y: number) {
@@ -181,21 +181,12 @@ function heroIntro() {
   const plate = document.querySelector('[data-hero="plate"]');
   const tl = gsap.timeline({ delay: 0.35, defaults: { ease: 'expo.out' } });
   tl.to(lines, { yPercent: 0, duration: 1.3, stagger: 0.1 }, 0);
-  if (plate) tl.fromTo(plate, { clipPath: 'inset(100% 0 0 0)' }, { clipPath: 'inset(0% 0 0 0)', duration: 1.4 }, 0.15);
+  if (plate) tl.fromTo(plate, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 1.2, clearProps: 'transform' }, 0.45);
   if (copy) tl.fromTo(copy, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 1 }, 0.6);
-
-  /* The phone plate drifts slower than the page, so the name slides over it. */
-  if (plate) gsap.to(plate, { yPercent: -14, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
-
-  /* The loop plays only while it is on screen. */
-  const video = document.querySelector<HTMLVideoElement>('video[data-loop]');
-  if (video) {
-    new IntersectionObserver((es) => es.forEach((e) => (e.isIntersecting ? void video.play().catch(() => {}) : video.pause())), { threshold: 0.2 }).observe(video);
-  }
 }
 
-/* The two held stages: Kilo's name tears at the seam, then three screens wipe over one another. */
-function scenes(lenis: Lenis) {
+/* The held stage: the word WORK tears at the seam while the page scrolls. */
+function scenes() {
   const tear = document.querySelector<HTMLElement>('.tear');
   if (tear) {
     const g = (s: string) => document.querySelector<HTMLElement>(`[data-tear="${s}"]`)!;
@@ -213,30 +204,6 @@ function scenes(lenis: Lenis) {
     split(g('r'), pane, false);
     split(g('tl'), half, true);
     split(g('tr'), half, false);
-  }
-
-  const story = document.querySelector<HTMLElement>('[data-story]');
-  if (story) {
-    const steps = [...story.querySelectorAll<HTMLElement>('.step')];
-    const tl = gsap.timeline({ scrollTrigger: { trigger: story, start: 'top top', end: 'bottom bottom', scrub: 0.5 } });
-    tl.to({}, { duration: 0.7 })
-      .to(steps[1], { clipPath: 'inset(0% 0 0 0)', duration: 1, ease: 'power2.inOut' })
-      .to({}, { duration: 0.7 })
-      .to(steps[2], { clipPath: 'inset(0% 0 0 0)', duration: 1, ease: 'power2.inOut' })
-      .to({}, { duration: 0.7 });
-
-    // Tabs jump to the scroll position that shows their screen.
-    const total = 0.7 * 3 + 2;
-    const marks = [0.35 / total, (0.7 + 1 + 0.35) / total, (total - 0.35) / total];
-    story.querySelectorAll<HTMLAnchorElement>('[data-tab]').forEach((a) =>
-      a.addEventListener('click', (ev) => {
-        ev.preventDefault();
-        const i = Number(a.dataset.tab);
-        const st = ScrollTrigger.getAll().find((t) => t.trigger === story);
-        if (!st) return;
-        lenis.scrollTo(st.start + (st.end - st.start) * marks[i] , { duration: 1.1 });
-      }),
-    );
   }
 
   // The footer wordmark rises into place as the footer comes up.
