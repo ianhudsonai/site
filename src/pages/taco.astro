@@ -1,0 +1,38 @@
+---
+import Base from '../layouts/Base.astro';
+import Meal from '../components/Meal.astro';
+import { site } from '../data/site';
+
+const repo = 'https://github.com/ianhudsonai/taco-br-mcp';
+const npm = 'https://www.npmjs.com/package/taco-br-mcp';
+---
+
+<Base
+  title={`Weigh a plate of Brazil: a taco-br-mcp demo | ${site.name}`}
+  description="Slide the grams on a Brazilian plate and read the totals from the TACO food table, the same table taco-br-mcp gives to AI assistants."
+>
+  <header class="top">
+    <a href="/" class="back"><span aria-hidden="true">←</span> ianhudson.dev</a>
+    <nav aria-label="taco-br-mcp">
+      <a href={repo}>README</a>
+      <a href={npm}>npm</a>
+    </nav>
+  </header>
+  <main id="main">
+    <Meal />
+  </main>
+</Base>
+
+<style>
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.2rem var(--m);
+    background: var(--bg);
+    color: var(--fg);
+  }
+  .top a { display: inline-flex; min-height: 2.75rem; align-items: center; gap: 0.5rem; font-weight: 600; text-underline-offset: 0.45em; }
+  .top a:hover { color: var(--accent); text-decoration: underline; text-decoration-thickness: 3px; }
+  nav { display: flex; gap: clamp(1rem, 2.4vw, 2.25rem); }
+</style>

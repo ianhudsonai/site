@@ -8,6 +8,7 @@ export const GET: APIRoute = () => {
 ${site.role}. ${site.tagline}
 
 Source: ${site.url}
+Based in ${site.location}. Speaks ${site.languages}.
 
 ## About
 
@@ -15,7 +16,11 @@ ${site.about.join('\n\n')}
 
 ## Projects
 
-${projects.map((p) => `### ${p.name} (${p.status})\n\n${p.summary}\n\n${p.href}`).join('\n\n')}
+${projects.map((p) => `### ${p.name} (${p.status})\n\n${p.summary}\n\n${p.links.map((l) => `- ${l.label}: ${l.href.startsWith('/') ? site.url + l.href : l.href}`).join('\n')}`).join('\n\n')}
+
+## Now (updated ${site.nowUpdated})
+
+${site.now.map((l) => `- ${l}`).join('\n')}
 
 ## Contact
 

@@ -6,11 +6,20 @@ export const site = {
   role: 'Developer and founder',
   tagline: 'I build apps and AI tools. Founder of Kilo.',
   description:
-    'Ian Hudson Vieira is a developer and solo founder building Kilo, an offline-first iPhone app for workout and food logging, and open tools like taco-br-mcp.',
+    'Ian Hudson Vieira is a builder in São Paulo, Brazil. Kilo is an offline-first iPhone app for logging workouts and food. taco-br-mcp is an open-source MCP server for the TACO food table.',
+  location: 'São Paulo, Brazil',
+  languages: 'Portuguese, English',
   about: [
-    "I'm a developer and solo founder. I design and build everything myself, from the app to the tooling around it.",
-    'My main project is Kilo, an offline-first iPhone app for logging workouts and food, made for Brazilians. I also publish open-source tools, like an MCP server that gives AI assistants access to Brazilian nutrition data.',
-    'More projects will land here as they ship.',
+    "I'm Ian, a builder in São Paulo.",
+    'I build Kilo, an offline-first iPhone app for logging workouts and food, made for Brazilians. It is pre-launch and the waitlist is open at kiloapp.com.br. I also published taco-br-mcp, an open-source MCP server for the TACO table. It is on npm and in the official MCP registry.',
+    'I build with AI coding agents, mainly Claude Code, and I ship fast. I make fitness content on Instagram (@progressive.overloadd) and TikTok. In February 2027 I start a degree at FIAP.',
+  ],
+  // The Now section. Update the date whenever the lines change.
+  nowUpdated: 'Oct 2026',
+  now: [
+    'Getting Kilo ready for launch. The waitlist is open at kiloapp.com.br.',
+    'Building more small projects in public and posting them here as they ship.',
+    'Starting at FIAP in February 2027.',
   ],
 } as const;
 
@@ -27,24 +36,30 @@ export interface Project {
   summary: string;
   href: string;
   cta: string;
+  /** Every link shown on the project's card, the main one first. */
+  links: { label: string; href: string }[];
 }
 
 export const projects: Project[] = [
   {
     name: 'Kilo',
     status: 'Pre-launch',
-    summary:
-      'An offline-first iPhone app for logging workouts and food, built for Brazilians. Designed and built solo. Join the waitlist.',
+    summary: 'An offline-first iPhone app for logging workouts and food, made for Brazilians. Pre-launch, waitlist open.',
     href: 'https://kiloapp.com.br',
     cta: 'kiloapp.com.br',
+    links: [{ label: 'kiloapp.com.br', href: 'https://kiloapp.com.br' }],
   },
   {
     name: 'taco-br-mcp',
     status: 'Open source',
     summary:
-      'An MCP server in TypeScript that gives AI assistants the TACO, the Brazilian Food Composition Table: search foods, read nutrients, compare foods and calculate meals.',
+      'An open-source MCP server that gives AI assistants the TACO, the Brazilian food composition table. On npm and in the official MCP registry. 45/45 right answers with the server vs 32/45 without, 90 runs.',
     href: 'https://github.com/ianhudsonai/taco-br-mcp',
-    cta: 'github.com/ianhudsonai/taco-br-mcp',
+    cta: 'GitHub',
+    links: [
+      { label: 'GitHub', href: 'https://github.com/ianhudsonai/taco-br-mcp' },
+      { label: 'npm', href: 'https://www.npmjs.com/package/taco-br-mcp' },
+      { label: 'Try the plate', href: '/taco' },
+    ],
   },
-  // Add the npm link to taco-br-mcp here once the package is published.
 ];

@@ -7,12 +7,16 @@ export const GET: APIRoute = () => {
   const body = `${site.name}
 ${site.role}
 ${site.tagline}
+${site.location}. ${site.languages}.
 
 ABOUT
 ${site.about.map(wrap).join('\n\n')}
 
 PROJECTS
-${projects.map((p) => `  ${p.name} [${p.status}]\n${wrap(p.summary)}\n    ${p.href}`).join('\n\n')}
+${projects.map((p) => `  ${p.name} [${p.status}]\n${wrap(p.summary)}\n${p.links.map((l) => `    ${l.href.startsWith('/') ? site.url + l.href : l.href}`).join('\n')}`).join('\n\n')}
+
+NOW (updated ${site.nowUpdated})
+${site.now.map((l) => wrap(`- ${l}`)).join('\n')}
 
 CONTACT
   GitHub    ${links.github}

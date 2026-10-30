@@ -1,0 +1,32 @@
+---
+import { site } from '../data/site';
+---
+
+<section id="now" tabindex="-1" class="now" aria-labelledby="now-title">
+  <h2 id="now-title" data-reveal>Now</h2>
+  <div class="body">
+    <ul>
+      {site.now.map((line) => <li data-reveal>{line}</li>)}
+    </ul>
+    <p class="upd" data-reveal>Updated {site.nowUpdated}</p>
+  </div>
+</section>
+
+<style>
+  .now {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 2rem var(--m);
+    background: var(--bg);
+    padding: clamp(5rem, 11vw, 10rem) var(--m);
+  }
+  h2 { grid-column: 1 / span 5; font-family: var(--font-display); font-weight: 400; font-size: var(--t-d); line-height: 0.9; letter-spacing: -0.035em; text-transform: uppercase; }
+  .body { grid-column: 6 / -1; padding-top: 0.5rem; }
+  ul { display: grid; gap: 1.25rem; }
+  li { font-size: var(--t-l); font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
+  .upd { margin-top: 2rem; color: var(--muted); font-size: var(--t-b); text-align: right; }
+
+  @media (max-width: 900px) {
+    h2, .body { grid-column: 1 / -1; }
+  }
+</style>
