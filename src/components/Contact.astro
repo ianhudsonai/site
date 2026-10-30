@@ -1,0 +1,39 @@
+---
+import SectionLabel from './SectionLabel.astro';
+import { site, links } from '../data/site';
+
+const rows = [
+  { label: 'github', text: 'github.com/ianhudsonai', href: links.github },
+  { label: 'linkedin', text: 'linkedin.com/in/ianhudsonvieira', href: links.linkedin },
+  { label: 'x', text: 'x.com/ianhudsonai', href: links.x },
+  { label: 'email', text: links.email, href: `mailto:${links.email}` },
+];
+---
+
+<section id="contact" tabindex="-1" aria-labelledby="contact-title" class="scroll-mt-14 border-t border-line">
+  <div class="mx-auto max-w-5xl px-5 py-20 sm:px-8 md:py-28">
+    <SectionLabel id="contact-title" index="03" title="Contact" />
+
+    <ul class="mt-12 border-t-2 border-fg font-mono">
+      {
+        rows.map((r) => (
+          <li data-reveal>
+            <a
+              href={r.href}
+              class="group flex flex-col gap-1 border-b border-line px-1 py-4 transition-colors duration-300 hover:bg-accent hover:text-on-accent sm:flex-row sm:items-baseline sm:gap-8 sm:px-3"
+            >
+              <span class="w-24 shrink-0 text-sm text-muted group-hover:text-on-accent">{r.label}</span>
+              <span class="break-all text-base sm:text-lg">{r.text}</span>
+              <span class="hidden text-accent group-hover:text-on-accent sm:ml-auto sm:inline" aria-hidden="true">→</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <p data-reveal class="mt-10 font-mono text-sm text-muted">
+      <span class="text-accent" aria-hidden="true">$ </span><code class="text-fg">curl {site.url.replace('https://', '')}</code>
+      <span class="ml-2">for the terminal version</span>
+    </p>
+  </div>
+</section>

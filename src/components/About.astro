@@ -1,0 +1,21 @@
+---
+import SectionLabel from './SectionLabel.astro';
+import { site } from '../data/site';
+---
+
+<section id="about" tabindex="-1" aria-labelledby="about-title" class="scroll-mt-14 border-t border-line">
+  <div class="mx-auto grid max-w-5xl gap-10 px-5 py-20 sm:px-8 md:grid-cols-[14rem_1fr] md:py-28">
+    <div>
+      <SectionLabel id="about-title" index="01" title="About" />
+    </div>
+    <div class="max-w-2xl space-y-5 text-lg leading-relaxed">
+      {
+        site.about.map((p, i) => (
+          <p data-reveal class={i === 0 ? 'text-xl text-fg sm:text-2xl' : 'text-muted'}>
+            {p}
+          </p>
+        ))
+      }
+    </div>
+  </div>
+</section>
