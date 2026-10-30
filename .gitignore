@@ -4,3 +4,6 @@ dist/
 .vercel/
 .DS_Store
 .env
+
+# taste-skill working files
+.taste-skill/
