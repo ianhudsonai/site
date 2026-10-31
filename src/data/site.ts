@@ -12,7 +12,7 @@ export const site = {
   about: [
     "I'm Ian, a builder in São Paulo.",
     'I build Kilo, an offline-first iPhone app for logging workouts and food, made for Brazilians. It is pre-launch and the waitlist is open at kiloapp.com.br. I also published taco-br-mcp, an open-source MCP server for the TACO table. It is on npm and in the official MCP registry.',
-    'I build with AI coding agents, mainly Claude Code, and I ship fast. I make fitness content on Instagram (@progressive.overloadd) and TikTok. In February 2027 I start a degree at FIAP.',
+    'I build with generative AI, LLMs and AI coding agents, and I ship fast. I make fitness content on Instagram (@progressive.overloadd) and TikTok. In February 2027 I start a degree at FIAP.',
   ],
   // The Now section. Update the date whenever the lines change.
   nowUpdated: 'Oct 2026',
