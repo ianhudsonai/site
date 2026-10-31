@@ -1,20 +1,23 @@
 ---
-import { site, links } from '../data/site';
-const [, second, third] = site.about;
+import { site } from '../data/site';
+const [lead, second, third] = site.about;
+// The lead's first sentence is set bold, the rest at the same size.
+const [who, ...restOfLead] = lead.split(/(?<=\.)\s+/);
 ---
 
 <section id="about" tabindex="-1" class="about" aria-labelledby="about-title">
   <h2 id="about-title" class="sr-only">About</h2>
   <div class="facts" data-reveal>
     <p><b>Role</b>{site.role}</p>
-    <p><b>Now</b>Kilo and taco-br-mcp</p>
-    <p><b>Reach</b><a href={`mailto:${links.email}`}>{links.email}</a></p>
+    <p><b>Based</b>{site.location}</p>
+    <p><b>Speaks</b>{site.languages}</p>
   </div>
   <div class="text">
     <p class="lead" data-reveal>
-      <span class="who">I'm a developer and solo founder.</span> I design and build everything myself, from the app to the tooling around it.
+      <span class="who">{who}</span> {restOfLead.join(' ')}
     </p>
-    <p class="rest" data-reveal>{second.replace(/^My main project/, 'My main project')}</p>
+    {/* TODO: add a photo of Ian here. */}
+    <p class="rest" data-reveal>{second}</p>
     <p class="rest" data-reveal>{third}</p>
   </div>
 </section>

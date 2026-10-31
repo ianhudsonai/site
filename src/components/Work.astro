@@ -1,25 +1,9 @@
----
-import { tacoFoods, sumPlate, tacoSource } from '../data/taco';
-
-const plate = Object.fromEntries(tacoFoods.map((f) => [f.id, f.grams]));
-const lines = tacoFoods.filter((f) => plate[f.id] > 0).map((f) => ({ label: f.label, grams: plate[f.id], kcal: Math.round((f.kcal * plate[f.id]) / 100) }));
-const total = Math.round(sumPlate(plate).kcal);
----
-
 <section id="work" tabindex="-1" class="tear" aria-labelledby="work-title">
   <div class="stage">
     <div class="pane pane-l" data-tear="l">
       <img src="/kilo/alimentacao-dia.webp" width="780" height="1688" alt="Kilo's food log for one day, in Portuguese: banana, boiled egg, French roll and rice, each with its calories" loading="lazy" />
     </div>
-    <div class="pane pane-r" data-tear="r">
-      <div class="frag" role="img" aria-label={`A taco-br-mcp meal total: ${lines.map((l) => `${l.label} ${l.grams} g, ${l.kcal} kcal`).join('; ')}; total ${total} kcal. Source: ${tacoSource}`}>
-        <p class="frag-h"><code>calc_meal</code></p>
-        <ul aria-hidden="true">
-          {lines.map((l) => <li><span>{l.label} {l.grams} g</span><b>{l.kcal}</b></li>)}
-        </ul>
-        <p class="frag-t" aria-hidden="true"><span>Total</span><b>{total} kcal</b></p>
-      </div>
-    </div>
+    <div class="pane pane-r" data-tear="r"></div>
 
     <h2 id="work-title" class="title">
       <span class="half half-l" data-tear="tl">Work</span>
@@ -44,23 +28,6 @@ const total = Math.round(sumPlate(plate).kcal);
   .pane-r { background: var(--surface); }
   .pane img { position: absolute; width: 46%; max-width: 22rem; height: auto; left: var(--m); top: 4.25rem; }
 
-  /* The right pane holds a drawn fragment of taco-br-mcp's own output. */
-  .frag {
-    position: absolute;
-    right: var(--m);
-    top: 5.25rem;
-    width: 46%;
-    max-width: 22rem;
-    padding: 1.1rem 1.25rem 1rem;
-    background: var(--fg);
-    color: var(--bg);
-    border: 2px solid var(--bg);
-  }
-  .frag-h code { font-family: var(--font-mono); /* taste-skill-ignore: a literal tool name */ }
-  .frag-h { font-weight: 700; font-size: var(--t-s); margin-bottom: 0.75rem; }
-  .frag ul { display: grid; gap: 0.35rem; font-size: var(--t-b); font-weight: 600; }
-  .frag li, .frag-t { display: flex; justify-content: space-between; gap: 1rem; font-variant-numeric: tabular-nums; }
-  .frag-t { margin-top: 0.9rem; padding-top: 0.7rem; border-top: 3px solid var(--bg); font-size: var(--t-l); font-weight: 800; line-height: 1.1; }
 
   .title {
     position: absolute;
@@ -91,7 +58,6 @@ const total = Math.round(sumPlate(plate).kcal);
   @media (max-width: 720px) {
     .stage { min-height: 38rem; }
     .pane-l img { top: 4rem; width: 78%; height: 30svh; object-fit: cover; object-position: top; }
-    .frag { display: none; }
     .title { font-size: 25vw; top: 40%; }
   }
 </style>

@@ -9,6 +9,12 @@ export const GET: APIRoute = () => {
 ## Projects
 
 ${projects.map((p) => `- [${p.name}](${p.href}): ${p.summary}`).join('\n')}
+- [Weigh a plate of Brazil](${site.url}/taco): a small demo that adds up a plate from the TACO table, the same data taco-br-mcp serves.
+- [taco-br-mcp on npm](https://www.npmjs.com/package/taco-br-mcp)
+
+## Now (updated ${site.nowUpdated})
+
+${site.now.map((l) => `- ${l}`).join('\n')}
 
 ## Contact
 

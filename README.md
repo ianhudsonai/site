@@ -37,4 +37,4 @@ Add `src/content.config.ts` with a Markdown collection, then a `/blog` index and
 
 ## Adding the npm link
 
-Once `taco-br-mcp` is published, add the link in `src/data/site.ts` (see the comment under `projects`).
+The npm and MCP registry links for `taco-br-mcp` live in the `projects` list in `src/data/site.ts` and in `src/data/console.ts`.

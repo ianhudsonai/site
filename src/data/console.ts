@@ -25,7 +25,7 @@ export interface ConsoleProject {
   status: string;
   blurb: string;
   href: string;
-  cta: string;
+  links: { label: string; href: string }[];
   levels: [Level, Level, Level];
   barLabel: string;
   bar: BarPart[];
@@ -36,18 +36,18 @@ export const consoleProjects: ConsoleProject[] = [
     id: 'kilo',
     name: 'Kilo',
     status: 'Pre-launch',
-    blurb: 'An offline-first iPhone app for logging workouts and food, built for Brazilians.',
+    blurb: 'An offline-first iPhone app for logging workouts and food, made for Brazilians. Pre-launch, waitlist open.',
     href: 'https://kiloapp.com.br',
-    cta: 'kiloapp.com.br',
+    links: [{ label: 'kiloapp.com.br', href: 'https://kiloapp.com.br' }],
     levels: [
       {
         label: 'Overview',
         metric: 'Pre-launch',
-        caption: 'The waitlist is open.',
+        caption: 'The waitlist is open at kiloapp.com.br.',
         figs: [
           { k: 'Platform', v: 'iPhone' },
           { k: 'Works', v: 'Offline' },
-          { k: 'Built by', v: '1 person' },
+          { k: 'Waitlist', v: 'Open' },
         ],
       },
       {
@@ -81,9 +81,13 @@ export const consoleProjects: ConsoleProject[] = [
     id: 'taco',
     name: 'taco-br-mcp',
     status: 'Open source',
-    blurb: 'An MCP server that gives AI assistants the TACO, the Brazilian food composition table.',
+    blurb: 'An open-source MCP server that gives AI assistants the TACO, the Brazilian food composition table. On npm and in the official MCP registry.',
     href: 'https://github.com/ianhudsonai/taco-br-mcp',
-    cta: 'GitHub',
+    links: [
+      { label: 'GitHub', href: 'https://github.com/ianhudsonai/taco-br-mcp' },
+      { label: 'npm', href: 'https://www.npmjs.com/package/taco-br-mcp' },
+      { label: 'Try the plate', href: '/taco' },
+    ],
     levels: [
       {
         label: 'Overview',
@@ -91,8 +95,8 @@ export const consoleProjects: ConsoleProject[] = [
         caption: 'One server, one table.',
         figs: [
           { k: 'Source', v: 'TACO 4ª ed.' },
-          { k: 'Written in', v: 'TypeScript' },
-          { k: 'Status', v: 'Open source' },
+          { k: 'Published', v: 'npm, MCP registry' },
+          { k: 'License', v: 'MIT' },
         ],
       },
       {
@@ -108,11 +112,11 @@ export const consoleProjects: ConsoleProject[] = [
       {
         label: 'Proof',
         metric: '45 / 45',
-        caption: 'eval questions answered right with the server, against 32 without it.',
+        caption: 'right answers with the server, against 32 / 45 without. 90 runs. The README has the details.',
         figs: [
-          { k: 'Lookups', v: '18 / 18' },
-          { k: 'Household', v: '6 / 6' },
-          { k: 'Meals', v: '3 / 3' },
+          { k: 'Questions', v: '15' },
+          { k: 'Repeats', v: '3 each' },
+          { k: 'Runs', v: '90' },
         ],
       },
     ],

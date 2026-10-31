@@ -10,7 +10,10 @@ export const GET: APIRoute = () =>
         url: site.url,
         description: site.description,
         updated: new Date().toISOString().slice(0, 10),
-        pages: [{ path: '/', title: `${site.name}: ${site.role}`, summary: site.tagline }],
+        pages: [
+          { path: '/', title: `${site.name}: ${site.role}`, summary: site.tagline },
+          { path: '/taco', title: 'Weigh a plate of Brazil', summary: 'A demo that adds up a plate from the TACO table, the data taco-br-mcp serves.' },
+        ],
         machineReadable: {
           resumeJson: `${site.url}/resume.json`,
           resumeText: `${site.url}/resume.txt`,
