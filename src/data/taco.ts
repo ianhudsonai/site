@@ -57,3 +57,10 @@ export const evalRows = [
   { kind: 'Honesty', without: '3/6', withMcp: '6/6' },
   { kind: 'Total of 45', without: '32', withMcp: '45' },
 ] as const;
+
+/** The default plate written out as the calc_meal call an assistant would make, with its total. Shown as literal code. */
+export function sampleCall(): string {
+  const plate = Object.fromEntries(tacoFoods.map((f) => [f.id, f.grams]));
+  const items = tacoFoods.filter((f) => plate[f.id] > 0).map((f) => `  { food_id: ${f.id}, grams: ${f.grams} }`);
+  return `calc_meal({ items: [\n${items.join(',\n')}\n] })\n// ${Math.round(sumPlate(plate).kcal)} kcal`;
+}

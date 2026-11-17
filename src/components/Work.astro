@@ -1,63 +1,117 @@
-<section id="work" tabindex="-1" class="tear" aria-labelledby="work-title">
-  <div class="stage">
-    <div class="pane pane-l" data-tear="l">
-      <img src="/kilo/alimentacao-dia.webp" width="780" height="1688" alt="Kilo's food log for one day, in Portuguese: banana, boiled egg, French roll and rice, each with its calories" loading="lazy" />
-    </div>
-    <div class="pane pane-r" data-tear="r"></div>
+---
+import { consoleProjects } from '../data/console';
+import { sampleCall } from '../data/taco';
 
-    <h2 id="work-title" class="title">
-      <span class="half half-l" data-tear="tl">Work</span>
-      <span class="half half-r" data-tear="tr" aria-hidden="true">Work</span>
-    </h2>
-  </div>
+const call = sampleCall();
+---
+
+<section id="work" tabindex="-1" class="work" aria-labelledby="work-title">
+  <header class="head">
+    <h2 id="work-title" data-reveal>Work</h2>
+    <p class="lede" data-reveal>Two projects so far. One is an app, the other is a tool for AI assistants.</p>
+  </header>
+
+  {
+    consoleProjects.map((p, i) => (
+      <div class="wrap" data-reveal>
+        <article class={`cover cover-${p.id}`} aria-labelledby={`cover-${p.id}`}>
+          <div class="media">
+            {p.id === 'kilo' ? (
+              <>
+                <img class="shot shot-a" src="/kilo/alimentacao-dia.webp" width="780" height="1688" alt="Kilo's food log for one day, in Portuguese: 1,437 kcal left, protein, carbs and fat against targets, then breakfast and lunch" loading="lazy" />
+                <img class="shot shot-b" src="/kilo/treino-aceitar-sugestao.webp" width="780" height="1688" alt="Kilo's workout screen, in Portuguese: Treino A with bench press sets of 60 kg for 10 reps" loading="lazy" />
+              </>
+            ) : (
+              <pre class="code" tabindex="0" aria-label="A meal sent to taco-br-mcp as one calc_meal call"><code>{call}</code></pre>
+            )}
+          </div>
+
+          <div class="text">
+            <p class="kicker"><span class="num">0{i + 1}</span>{p.cover.kicker}</p>
+            <h3 id={`cover-${p.id}`} class="name">{p.name}</h3>
+            <p class="blurb">{p.blurb}</p>
+            <dl class="rows">
+              {p.cover.rows.map((r) => (
+                <div>
+                  <dt>{r.k}</dt>
+                  <span class="dots" aria-hidden="true" />
+                  <dd>{r.v}</dd>
+                </div>
+              ))}
+            </dl>
+            <p class="acts">
+              <a class="btn hard" href={p.links[0].href}>{p.links[0].label} <span aria-hidden="true">→</span></a>
+              {p.links.slice(1).map((l) => <a class="go" href={l.href}>{l.label} <span aria-hidden="true">→</span></a>)}
+              <a class="go" href="#projects" data-pick={p.id}>Look inside <span aria-hidden="true">↓</span></a>
+            </p>
+          </div>
+        </article>
+      </div>
+    ))
+  }
 </section>
 
+<script>
+  // "Look inside" jumps to the console below with that project already picked. Without script it is a plain anchor.
+  document.addEventListener('click', (ev) => {
+    const a = (ev.target as Element).closest<HTMLElement>('[data-pick]');
+    const radio = a && document.getElementById(`pick-${a.dataset.pick}`);
+    if (radio instanceof HTMLInputElement) radio.checked = true;
+  });
+</script>
+
 <style>
-  .tear { position: relative; }
-  .stage {
-    position: relative;
-    height: 100svh;
-    min-height: 40rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    overflow: clip;
-    background: var(--bg);
-  }
-  .pane { position: relative; overflow: clip; }
-  .pane-l { background: var(--accent); }
-  .pane-r { background: var(--surface); }
-  .pane img { position: absolute; width: 46%; max-width: 22rem; height: auto; left: var(--m); top: 4.25rem; }
+  /* The section opens straight onto the projects: a title row, then one full-width cover each. Nothing is pinned. */
+  .work { background: var(--bg); padding: clamp(4rem, 9vw, 8rem) var(--m) 0; }
+  .head { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: end; gap: var(--m); margin-bottom: clamp(1.75rem, 3.5vw, 3rem); }
+  h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(4rem, 13vw, 13rem); line-height: 0.8; letter-spacing: -0.05em; text-transform: uppercase; }
+  .lede { max-width: 30ch; padding-bottom: 0.35rem; color: var(--muted); }
 
+  .wrap + .wrap { margin-top: clamp(1.25rem, 2.2vw, 2rem); }
+  .cover { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); min-height: clamp(27rem, 42vw, 37rem); border: 2px solid var(--fg); }
+  .cover-kilo { background: var(--accent); color: var(--on-accent); border-color: var(--accent); --rule: var(--on-accent); }
+  .cover-taco { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); background: var(--surface); color: var(--fg); --rule: var(--accent); }
+  .cover-taco .media { order: 2; }
 
-  .title {
-    position: absolute;
-    left: 50%;
-    top: 46%;
-    translate: -50% -50%;
-    width: 100%;
-    font-family: var(--font-display);
-    font-weight: 400;
-    font-size: clamp(6rem, 20vw, 21rem);
-    line-height: 0.8;
-    letter-spacing: -0.05em;
-    text-transform: uppercase;
-    text-align: center;
-    pointer-events: none;
-    white-space: nowrap;
-  }
-  /* The word is set twice, each copy clipped to its own half. */
-  .half { display: block; }
-  .half-l { color: var(--bg); clip-path: inset(0 50% 0 0); }
-  .half-r { position: absolute; inset: 0; color: var(--fg); clip-path: inset(0 0 0 50%); }
+  .media { position: relative; overflow: clip; min-height: 18rem; }
+  /* Two phone screens, the second set lower and over the first. They run off the foot of the cover. */
+  .shot { position: absolute; width: 44%; height: auto; border: 2px solid var(--on-accent); box-shadow: 8px 8px 0 var(--on-accent); /* taste-skill-ignore: the Terminal zine hard shadow, on the cover's pictures */ }
+  .shot-a { left: 7%; top: clamp(1.5rem, 3vw, 2.75rem); }
+  .shot-b { left: 49%; top: clamp(4.5rem, 9vw, 8rem); }
 
+  .cover-taco .media { display: grid; align-items: center; padding: clamp(1.25rem, 3vw, 2.75rem); padding-left: 0; }
+  .code { margin: 0; padding: 1.1rem 1.25rem; background: var(--bg); color: var(--fg); border: 2px solid var(--fg); box-shadow: 8px 8px 0 var(--accent); /* taste-skill-ignore: same hard shadow as the hero card */ font: 500 1rem / 1.6 var(--font-mono); overflow: auto; }
 
-  /* With the motion layer on, the section is two screens tall and the stage holds while the halves meet and part. */
-  html.motion .tear { height: 230svh; }
-  html.motion .stage { position: sticky; top: 0; }
+  .text { container-type: inline-size; display: flex; flex-direction: column; justify-content: center; padding: clamp(1.5rem, 3vw, 2.75rem); min-width: 0; }
+  .kicker { display: flex; align-items: baseline; gap: 0.8rem; margin-bottom: 0.9rem; font-weight: 700; font-size: var(--t-b); line-height: 1.2; }
+  .num { font-family: var(--font-display); font-weight: 400; }
+  .name { font-family: var(--font-display); font-weight: 400; font-size: clamp(2.75rem, 12.4cqw, 7.5rem); line-height: 0.86; letter-spacing: -0.04em; text-transform: uppercase; overflow-wrap: anywhere; }
+  .blurb { max-width: 40ch; margin: 1rem 0 1.25rem; font-weight: 500; line-height: 1.35; text-wrap: pretty; }
 
-  @media (max-width: 720px) {
-    .stage { min-height: 38rem; }
-    .pane-l img { top: 4rem; width: 78%; height: 30svh; object-fit: cover; object-position: top; }
-    .title { font-size: 25vw; top: 40%; }
+  /* Fact rows: a label, a dotted leader, the value. */
+  .rows { max-width: 34rem; }
+  .rows div { display: flex; align-items: baseline; gap: 0.6rem; padding: 0.3rem 0; }
+  .rows dt { font-size: var(--t-s); font-weight: 600; }
+  .dots { flex: 1; min-width: 1.5rem; border-bottom: 2px dotted currentColor; opacity: 0.45; translate: 0 -0.25em; }
+  .rows dd { font-weight: 800; font-size: var(--t-b); line-height: 1.2; font-variant-numeric: tabular-nums; text-align: right; }
+
+  .acts { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.5rem; margin-top: 1.5rem; }
+  .cover-kilo .btn { background: var(--bg); color: var(--fg); --sh: var(--fg); }
+  .go { display: inline-flex; min-height: 2.75rem; align-items: center; gap: 0.4rem; font-weight: 700; font-size: var(--t-b); text-decoration: underline; text-decoration-color: var(--rule); text-decoration-thickness: 3px; text-underline-offset: 0.3em; }
+  .go:hover { text-decoration-color: currentColor; }
+  .cover-kilo .go:hover { text-decoration-thickness: 5px; }
+  .cover-kilo :focus-visible { outline-color: var(--on-accent); }
+
+  @media (max-width: 900px) {
+    .head { grid-template-columns: 1fr; gap: 1rem; }
+    .cover, .cover-taco { grid-template-columns: 1fr; min-height: 0; }
+    .cover-taco .media { order: 0; padding: var(--m) var(--m) 0.5rem; }
+    .code { font-size: var(--t-s); }
+    .cover-kilo .media { height: 19rem; min-height: 0; }
+    .shot { width: 42%; }
+    .shot-a { left: var(--m); top: 1.25rem; }
+    .shot-b { left: auto; right: var(--m); top: 3rem; }
+    .text { padding: 1.5rem var(--m) 1.75rem; }
+    .name { font-size: clamp(2.5rem, 13cqw, 4.5rem); }
   }
 </style>
