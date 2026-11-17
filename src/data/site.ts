@@ -5,6 +5,11 @@ export const site = {
   name: 'Ian Hudson Vieira',
   role: 'Developer and founder',
   tagline: 'I build apps and AI tools. Founder of Kilo.',
+  // The hero heading, one entry per line. The last line takes the accent.
+  headline: ['I build', 'apps and', 'AI tools.'],
+  // The one plain sentence under the heading.
+  intro:
+    'Founder of Kilo, an offline-first iPhone app for logging workouts and food. I also published taco-br-mcp, an open-source MCP server.',
   description:
     'Ian Hudson Vieira is a builder in São Paulo, Brazil. Kilo is an offline-first iPhone app for logging workouts and food. taco-br-mcp is an open-source MCP server for the TACO food table.',
   location: 'São Paulo, Brazil',

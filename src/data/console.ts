@@ -29,6 +29,8 @@ export interface ConsoleProject {
   levels: [Level, Level, Level];
   barLabel: string;
   bar: BarPart[];
+  /** The full-width cover in the Work section: a short label and the fact rows beside the picture. */
+  cover: { kicker: string; rows: Fig[] };
 }
 
 export const consoleProjects: ConsoleProject[] = [
@@ -76,6 +78,15 @@ export const consoleProjects: ConsoleProject[] = [
       { n: 7, label: 'Eaten 763 kcal', tone: 'accent' },
       { n: 13, label: 'Left 1,437 kcal', tone: 'empty' },
     ],
+    cover: {
+      kicker: 'iPhone app',
+      rows: [
+        { k: 'Logs', v: 'Food and workouts' },
+        { k: 'Works', v: 'Offline' },
+        { k: 'Food table', v: 'TACO' },
+        { k: 'Status', v: 'Waitlist open' },
+      ],
+    },
   },
   {
     id: 'taco',
@@ -125,5 +136,14 @@ export const consoleProjects: ConsoleProject[] = [
       { n: 32, label: 'Right without it 32', tone: 'ink' },
       { n: 13, label: 'Right only with it 13', tone: 'accent' },
     ],
+    cover: {
+      kicker: 'MCP server',
+      rows: [
+        { k: 'Tools', v: '6' },
+        { k: 'Source', v: 'TACO 4ª ed.' },
+        { k: 'Eval, with it', v: '45 / 45 right' },
+        { k: 'Eval, without', v: '32 / 45 right' },
+      ],
+    },
   },
 ];

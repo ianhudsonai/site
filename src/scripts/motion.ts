@@ -177,35 +177,16 @@ declare global {
 function heroIntro() {
   const lines = gsap.utils.toArray<HTMLElement>('[data-hero="line"]');
   gsap.set(lines, { yPercent: 115 });
-  const copy = document.querySelector('[data-hero="copy"]');
+  const copy = gsap.utils.toArray<HTMLElement>('[data-hero="copy"]');
   const plate = document.querySelector('[data-hero="plate"]');
   const tl = gsap.timeline({ delay: 0.35, defaults: { ease: 'expo.out' } });
   tl.to(lines, { yPercent: 0, duration: 1.3, stagger: 0.1 }, 0);
   if (plate) tl.fromTo(plate, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 1.2, clearProps: 'transform' }, 0.45);
-  if (copy) tl.fromTo(copy, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 1 }, 0.6);
+  if (copy.length) tl.fromTo(copy, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 1, stagger: 0.12 }, 0.5);
 }
 
-/* The held stage: the word WORK tears at the seam while the page scrolls. */
+/* Scroll-tied scenes. Nothing is pinned: the page never holds the visitor in place. */
 function scenes() {
-  const tear = document.querySelector<HTMLElement>('.tear');
-  if (tear) {
-    const g = (s: string) => document.querySelector<HTMLElement>(`[data-tear="${s}"]`)!;
-    const pane = innerHeight * 0.2;
-    const half = innerHeight * 0.3;
-    // At 0 the halves meet exactly. The section is 230svh tall, so it is held while 0.43 to 0.57 of its travel passes.
-    const split = (el: HTMLElement, a: number, up: boolean) => {
-      const s = up ? 1 : -1;
-      gsap.timeline({ scrollTrigger: { trigger: tear, start: 'top bottom', end: 'bottom top', scrub: 0.4 } })
-        .fromTo(el, { y: s * a }, { y: 0, duration: 0.43, ease: 'none' })
-        .to(el, { y: 0, duration: 0.14 })
-        .to(el, { y: -s * a, duration: 0.43, ease: 'none' });
-    };
-    split(g('l'), pane, true);
-    split(g('r'), pane, false);
-    split(g('tl'), half, true);
-    split(g('tr'), half, false);
-  }
-
   // The footer wordmark rises into place as the footer comes up.
   const mark = document.querySelector<HTMLElement>('[data-rise]');
   if (mark) gsap.fromTo(mark, { yPercent: 38 }, { yPercent: 0, ease: 'none', scrollTrigger: { trigger: 'footer', start: 'top bottom', end: 'top 25%', scrub: true } });
